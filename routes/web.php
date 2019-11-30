@@ -44,3 +44,21 @@ Route::get('auth/logout', [//로그아웃요청
     'as' => 'sessions.destroy',
     'uses' => 'SessionsController@destroy',
 ]);
+
+/* 비밀번호 초기화 */
+Route::get('auth/remind', [//비밀번호 변경 요청 폼으로 이동
+    'as' => 'remind.create',
+    'uses' => 'PasswordsController@getRmind',
+]);
+Route::post('auth/remind', [//변경 허가 요정
+    'as' => 'remind.store',
+    'uses' => 'PasswordsController@postRmind',
+]);
+Route::get('auth/reset/{token}', [//비밀번호 변경 폼으로 이동
+    'as' => 'reset.create',
+    'uses' => 'PasswordsController@getReset',
+]);
+Route::post('auth/reset', [//비밀번호 변경
+    'as' => 'reset.store',
+    'uses' => 'PasswordsController@postReset',
+]);

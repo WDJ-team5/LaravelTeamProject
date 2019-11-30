@@ -10,8 +10,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-                
+            <ul class="nav navbar-nav mr-auto">
+                <!-- menu -->
+				<li class="nav-item">
+                    <a class="nav-link" href="#">조원소개</a>
+                </li>
+				<li class="nav-item">
+                    <a class="nav-link" href="#">현지학기제</a>
+                </li>
+				<li class="nav-item">
+                    <a class="nav-link" href="#">질의응답</a>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
