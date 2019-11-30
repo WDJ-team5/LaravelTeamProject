@@ -16,12 +16,16 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(User::class, function () {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'rank' => 'A',
+        'email' => 'root@oomori.org',
+        'password' => bcrypt('oomori'),
+        'name' => '관리자',
+        'birth' => now(),
+        'gender' => 'god',
+        'hint' => '나보다 약한 녀석들의 명령은 듣지 않는다.',
+        'answer' => bcrypt(bcrypt(1234)),
+        'activated' => '1',
     ];
 });

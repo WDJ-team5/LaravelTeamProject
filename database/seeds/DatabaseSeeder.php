@@ -11,6 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        if(config('database.default') !== 'sqlite') {
+            DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        }
+        
+        App\User::truncate();
+
+        $this->call(UsersTableSeeder::class);
+
+        if(config('database.default') !== 'sqlite') {
+            DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        }
     }
 }
