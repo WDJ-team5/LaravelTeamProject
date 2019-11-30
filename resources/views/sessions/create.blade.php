@@ -35,8 +35,6 @@
             </form>
             <!-- 찾기 메뉴 -->
             <div class="py-4 text-center">
-                <a href="#">아이디 찾기</a>
-                <span>&nbsp;|&nbsp;</span>
                 <a href="{{ route('remind.create') }}">비밀번호 찾기</a>
                 <span>&nbsp;|&nbsp;</span>
                 <a href="{{ route('users.create') }}">회원가입</a>

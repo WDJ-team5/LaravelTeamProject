@@ -29,8 +29,6 @@ class UsersController extends Controller
             'name' => $request->input('name'),
             'birth' => $birthday,
             'gender' => $request->input('gender'),
-            'hint' => $request->input('hint'),
-            'answer' => $request->input('answer'),
             'confirm_code' => $confirmCode,
         ]);
         

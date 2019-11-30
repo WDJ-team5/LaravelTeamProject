@@ -106,20 +106,6 @@
                 </div>
 				
                 <div class="form-group">
-                    <select name="hint" class="form-control" required>
-                        <option value="">힌트 선택*</option>
-                        <option>내가 존경하는 인물은?</option>
-                        <option>내가 졸업한 초등학교는?</option>
-                        <option>나의 어릴 적 별명은?</option>
-                        <option>가장 좋아하는 야구팀은?</option>
-                    </select>
-                </div>
-				
-                <div class="form-group">
-                    <input type="text" name="answer" class="form-control" placeholder="힌트 정답 *" required>
-                </div>
-				
-                <div class="form-group">
                     <button class="btn btn-primary btn-block text-uppercase" type="submit">가 입 하 기</button>
                     {{-- <button class="btn btn-primary btn-block text-uppercase" type="submit">수 정 완 료</button> --}}
                 </div>

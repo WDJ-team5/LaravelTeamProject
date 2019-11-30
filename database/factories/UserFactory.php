@@ -24,8 +24,6 @@ $factory->define(User::class, function () {
         'name' => '관리자',
         'birth' => now(),
         'gender' => 'god',
-        'hint' => '나보다 약한 녀석들의 명령은 듣지 않는다.',
-        'answer' => bcrypt(bcrypt(1234)),
         'activated' => '1',
     ];
 });
