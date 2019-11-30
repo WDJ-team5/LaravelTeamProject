@@ -36,7 +36,7 @@ class UsersController extends Controller
         
         event(new UserCreated($user));
 
-        return $this->respondCreated('가입하신 메일 계정으로 가입 확인 메일을 보내드렸습니다. 가입 확인 하시고 로그인해 주세요.');
+        return $this->respondCreated('관리자가 회원가입 검토 후 메일로 발송해드립니다. 최대 1시간 소요 됩니다.');
     }
 
     protected function respondCreated($message)
