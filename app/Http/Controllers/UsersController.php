@@ -27,15 +27,12 @@ class UsersController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
             'name' => $request->input('name'),
-            'profile_img' => $request->input('profile_img'),
             'birth' => $birthday,
             'gender' => $request->input('gender'),
-            'hint' => $request->input('hint'),
-            'hint_ans' => $request->input('hint_ans'),
             'confirm_code' => $confirmCode,
         ]);
         
-        event(new \App\Events\UserCreated($user));
+        event(new UserCreated($user));
 
         return $this->respondCreated('관리자가 회원가입 검토 후 메일로 발송해드립니다. 최대 1시간 소요 됩니다.');
     }

@@ -87,13 +87,13 @@
 				
                 <div class="form-group birth-group">
                     <select id="year" name="year" class="form-control birth" required>
-                        <option value="year">년(4자)*</option>
+                        <option value="">년(4자)*</option>
                     </select>
                     <select id="month" name="month" class="form-control birth" required>
-                        <option value="month">월*</option>
+                        <option value="">월*</option>
                     </select>
                     <select id="day" name="day" class="form-control birth" required>
-                        <option value="day">일*</option>
+                        <option value="">일*</option>
                     </select>
                 </div>
 				
