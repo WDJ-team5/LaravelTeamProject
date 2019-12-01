@@ -30,16 +30,12 @@ class UsersEventListener
 
         return $event->user->save();
     }
-	
-	public function subscribe(\Illuminate\Events\Dispatcher $events)
+
+    public function subscribe(\Illuminate\Events\Dispatcher $events)
     {
         $events->listen(
             \App\Events\UserCreated::class,
             __CLASS__.'@onUserCreated'
-        );
-		$events->listen(
-            \App\Events\PasswordRemindCreated::class,
-            __CLASS__ . '@onPasswordRemindCreated'
         );
     }
 
@@ -53,14 +49,4 @@ class UsersEventListener
             );
         });
     }
-	
-	public function onPasswordRemindCreated(\App\Events\PasswordRemindCreated $event)
-	{
-        \Mail::send('emails.passwords.reset', ['token' => $event->token], function ($message) use ($event) {
-			$message->to($event->email);
-			$message->subject(sprintf('[%s] 비밀번호를 초기화하세요.', config('app.name')));
-            }
-        );
-    }
-	
 }

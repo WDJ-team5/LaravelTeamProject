@@ -10,13 +10,25 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public function articles(){
+        $this->hasMany(Article::class);
+    }
+    
+    public function comments(){
+        $this->hasMany(Comment::class);
+    }
+
+    public function votes(){
+        $this->hasmany(Vote::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'name', 'birth', 'gender', 'confirm_code', 'activated',
+        'name', 'email', 'password', 'confirm_code' , 'activated' , 'birth' , 'gender', 'hint', 'hint_ans'
     ];
 
     /**
@@ -34,8 +46,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'activated' => 'boolean',
+        'email_verified_at' => 'datetime', 
+        'activated' => 'boolean', 
     ];
-	
-	protected $dates = ['last_login'];
 }

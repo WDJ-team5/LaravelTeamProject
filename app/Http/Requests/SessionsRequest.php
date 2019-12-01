@@ -27,8 +27,8 @@ class SessionsRequest extends FormRequest
             
         ];
     }
-	
-	public function messages()
+
+    public function messages()
     {
         return [
             
@@ -38,7 +38,8 @@ class SessionsRequest extends FormRequest
     public function attributes()
     {
         return [
-            
+            'email' => '이메일',
+            'password' => '비밀번호',
         ];
     }
 }

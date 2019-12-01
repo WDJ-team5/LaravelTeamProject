@@ -6,42 +6,56 @@ use Illuminate\Http\Request;
 use \App\Http\Requests\UsersRequest;
 use \App\Events\UserCreated;
 
+
 class UsersController extends Controller
 {
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('guest');
     }
-	
+
     public function create()
     {
         return view('users.create');
     }
-	
-	public function store(UsersRequest $request)
+
+    public function store(UsersRequest $request)
     {
         $confirmCode = \Str::random(60);
-        $birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
+        $year = $request->input('year'); 
+        $month = $request->input('month'); 
+        $day = $request->input('day'); 
 
         $user = \App\User::create([
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
             'name' => $request->input('name'),
-            'birth' => $birthday,
+            'profile_img' => $request->input('profile_img'),
+            'birth' => ($year."-".$month."-".$day),
             'gender' => $request->input('gender'),
+            'hint' => $request->input('hint'),
+            'hint_ans' => $request->input('hint_ans'),
             'confirm_code' => $confirmCode,
         ]);
+
+
+
+            event(new \App\Events\UserCreated($user));
+
+            flash('가입하신 메일 계정으로 가입 확인 메일을 보내드렸습니다. 가입확인 하시고 로그인해 주세요.');
+
+            return redirect('/');
         
-        event(new UserCreated($user));
+        // event(new UserCreated($user));
 
-        return $this->respondCreated('관리자가 회원가입 검토 후 메일로 발송해드립니다. 최대 1시간 소요 됩니다.');
+        // return $this->respondCreated('가입하신 메일 계정으로 가입 확인 메일을 보내드렸습니다. 가입확인 하시고 로그인해 주세요.');
     }
 
-    protected function respondCreated($message)
-    {
-        flash($message);
-        return redirect('/');
-    }
+    // protected function respondCreated($message)
+    // {
+    //     flash($message);
+    //     return redirect('/');
+    // }
 
     public function confirm($code)
     {
