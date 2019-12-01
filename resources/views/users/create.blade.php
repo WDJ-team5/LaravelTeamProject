@@ -63,7 +63,7 @@
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-user fa-stack-1x fa-inverse"></i>
                     </span>
-                    <img class="rounded-circle" name="profile_img" id="holder" src="" alt="" >
+                    <img class="rounded-circle" id="holder" src="" alt="" >
                 </div>
                 <div class="form-group text-center">
                     <div class="btn btn-primary" >사진등록<input type="file" style="display: none;"></div>
@@ -104,24 +104,6 @@
                         <option value="men">남</option>
                     </select>
                 </div>
-
-
-                <div class="form-group">
-                    <select id="hint" name="hint" class="form-control" required>
-                        <option>힌트 선택*</option>
-                        <option value="내가 존경하는 인물은?">내가 존경하는 인물은?</option>
-                        <option value="내가 졸업한 초등학교는?">내가 졸업한 초등학교는?</option>
-                        <option value="나의 어릴 적 별명은?">나의 어릴 적 별명은?</option>
-                        <option value="가장 좋아하는 야구팀은?">가장 좋아하는 야구팀은?</option>
-                    </select>
-                </div>
-                
-            
-        
-                <div class="form-group">
-                    <input type="text" id="answer" name="hint_ans" value="{{ old('hint_ans') }}" class="form-control" placeholder="힌트 정답 *" required>
-                </div>
-
 
 				
                 <div class="form-group">
