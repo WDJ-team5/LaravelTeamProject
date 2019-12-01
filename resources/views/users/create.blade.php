@@ -104,6 +104,7 @@
                         <option value="men">남</option>
                     </select>
                 </div>
+
 				
                 <div class="form-group">
                     <button class="btn btn-primary btn-block text-uppercase" type="submit">가 입 하 기</button>

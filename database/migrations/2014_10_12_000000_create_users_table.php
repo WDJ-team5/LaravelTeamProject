@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->datetime('last_login')->nullable();
             $table->string('confirm_code', 60)->nullable();
-            $table->boolean('activated')->default(0);
+            $table->string('activated')->default(0);
         });
     }
 
