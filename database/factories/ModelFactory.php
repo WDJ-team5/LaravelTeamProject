@@ -16,14 +16,21 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function () {
+$factory->define(App\User::class, function (Faker $faker) {
     return [
-        'rank' => 'A',
-        'email' => 'root@oomori.org',
+        'email' => $faker->unique()->safeEmail,
         'password' => bcrypt('oomori'),
-        'name' => '관리자',
+        'name' => $faker->name,
         'birth' => now(),
-        'gender' => 'god',
+        'gender' => 'slave',
         'activated' => '1',
+    ];
+});
+
+$factory->define(App\Article::class, function (Faker $faker) {
+    return [
+        'article_type' => '아나까나',
+        'title' => $faker->sentence(),
+        'content' => $faker->paragraph()
     ];
 });
