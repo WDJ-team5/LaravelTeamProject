@@ -51,7 +51,7 @@ class UsersController extends Controller
         $user = \App\User::whereConfirmCode($code)->first();
 
         if(!$user) {
-            flash('URL이 정확하지 않거나 만료되었습니다.ㅇ0ㅇ!');
+            flash('URL이 정확하지 않거나 만료되었습니다잉!');
 
             return redirect('/');
         }
@@ -61,7 +61,7 @@ class UsersController extends Controller
         $user->save();
 
         auth()->login($user);
-        flash(auth()->user()->name.'님, 환영합니다. 가입 확인되었습니다.');
+        flash(auth()->user()->name.'님, 환영합니다. 가입이 확인되었습니다.');
 
         return redirect('/');
     }
