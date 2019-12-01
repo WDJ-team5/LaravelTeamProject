@@ -18,12 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('rank')->default('C');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('profile_img')->nullable();
             $table->string('name');
             $table->string('birth');
             $table->string('gender');
-            $table->string('hint');
-            $table->string('hint_ans');
             $table->rememberToken();
             $table->timestamps();
             $table->datetime('last_login')->nullable();
