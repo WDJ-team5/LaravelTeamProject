@@ -37,5 +37,10 @@ class User extends Authenticatable
         'activated' => 'boolean', 
     ];
 	
-	protected $dates = ['last_login'];
+    protected $dates = ['last_login'];
+    
+    public function articles()
+    {
+        return $this->hasMany('App\Article');
+    }
 }
