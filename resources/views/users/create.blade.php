@@ -63,7 +63,7 @@
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-user fa-stack-1x fa-inverse"></i>
                     </span>
-                    <img class="rounded-circle" id="holder" src="" alt="" >
+                    <img class="rounded-circle" name="profile_img" id="holder" src="" alt="" >
                 </div>
                 <div class="form-group text-center">
                     <div class="btn btn-primary" >사진등록<input type="file" style="display: none;"></div>
@@ -87,13 +87,13 @@
 				
                 <div class="form-group birth-group">
                     <select id="year" name="year" class="form-control birth" required>
-                        <option value="">년(4자)*</option>
+                        <option value="year">년(4자)*</option>
                     </select>
                     <select id="month" name="month" class="form-control birth" required>
-                        <option value="">월*</option>
+                        <option value="month">월*</option>
                     </select>
                     <select id="day" name="day" class="form-control birth" required>
-                        <option value="">일*</option>
+                        <option value="day">일*</option>
                     </select>
                 </div>
 				
@@ -104,6 +104,25 @@
                         <option value="men">남</option>
                     </select>
                 </div>
+
+
+                <div class="form-group">
+                    <select id="hint" name="hint" class="form-control" required>
+                        <option>힌트 선택*</option>
+                        <option value="내가 존경하는 인물은?">내가 존경하는 인물은?</option>
+                        <option value="내가 졸업한 초등학교는?">내가 졸업한 초등학교는?</option>
+                        <option value="나의 어릴 적 별명은?">나의 어릴 적 별명은?</option>
+                        <option value="가장 좋아하는 야구팀은?">가장 좋아하는 야구팀은?</option>
+                    </select>
+                </div>
+                
+            
+        
+                <div class="form-group">
+                    <input type="text" id="answer" name="hint_ans" value="{{ old('hint_ans') }}" class="form-control" placeholder="힌트 정답 *" required>
+                </div>
+
+
 				
                 <div class="form-group">
                     <button class="btn btn-primary btn-block text-uppercase" type="submit">가 입 하 기</button>

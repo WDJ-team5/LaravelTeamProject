@@ -29,7 +29,7 @@ Route::post('auth/register', [//가입신청
 Route::get('auth/confirm/{code}', [//가입인증
     'as' => 'users.confirm',
     'uses' => 'UsersController@confirm',
-]);
+])->where('code', '[\pL-\pN]{60}');
 
 /* 사용자 인증 */
 Route::get('auth/login', [//로그인 폼으로 이동
