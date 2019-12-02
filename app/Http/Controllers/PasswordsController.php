@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Http\Requests\PasswordsRequest;
 
 class PasswordsController extends Controller
 {
@@ -43,13 +42,17 @@ class PasswordsController extends Controller
 		return view('passwords.reset', compact('token'));
 	}
 	
-	public function postReset(PasswordsRequest $request)
+	public function postReset(\App\Http\Requests\PasswordsRequest $request)
     {
         $token = $request->get('token');
 
         if (! \DB::table('password_resets')->whereToken($token)->first()) {
             return $this->respondError('URL이 정확하지않거나 만료 되었습니다.');
         }
+
+        \App\User::whereEmail($request->input('email'))->first()->update([
+            'password' => bcrypt($request->input('password'))
+        ]);
 
         \DB::table('password_resets')->whereToken($token)->delete();
 
@@ -60,7 +63,7 @@ class PasswordsController extends Controller
     {
         flash()->error($message);
 
-        return back()->withInput(\Request::only('email'));
+        return back()->withInput();
     }
 	
 	protected function respondSuccess($message)

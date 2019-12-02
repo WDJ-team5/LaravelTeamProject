@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Http\Requests\UsersRequest;
-use \App\Events\UserCreated;
 
 class UsersController extends Controller
 {
@@ -18,7 +16,7 @@ class UsersController extends Controller
         return view('users.create');
     }
 	
-	public function store(UsersRequest $request)
+	public function store(\App\Http\Requests\UsersRequest $request)
     {
         $confirmCode = \Str::random(60);
         $birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
@@ -32,7 +30,7 @@ class UsersController extends Controller
             'confirm_code' => $confirmCode,
         ]);
         
-        event(new UserCreated($user));
+        event(new \App\Events\UserCreated($user));
 
         return $this->respondCreated('관리자가 회원가입 검토 후 메일로 발송해드립니다. 최대 1시간 소요 됩니다.');
     }
