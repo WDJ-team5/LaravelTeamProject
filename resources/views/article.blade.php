@@ -54,16 +54,7 @@
                         </div>
                     </div>
 
-
-                <form action="{{route('articles.store')}}" method="POST" enctype="multipart/form-data" class="form__article">
-                    <!-- 파일첨부 폼 -->
-                    <div class="form-group {{$errors->has('files')?'has-error':''}}">
-                        <label for="files">파일</label>
-                        <input type="file" name="files[]" id="files" class="form-control" multiple="multiple"/>
-                        {!! $errors->first('files.0', '<span class="form-error">:message</span>') !!}
-                    </div>
-                </form>
-      
+					
                     <!-- 게시글 저장버튼 -->
                     <div class="col-sm-offset-2 col-sm-10">
                      <button type="submit" class="btn btn-primary" id="saveBtn" value="create">저장하기</button>
