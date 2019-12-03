@@ -67,6 +67,7 @@
 					error: function (data) {
 						console.log('Error:', data);
 						$('#saveBtn').html('실패');
+						$('#ajaxModel01').modal('hide');
 					}
 				});
 			}else {
@@ -145,9 +146,9 @@
                 <h2 class="section-heading text-uppercase">Q&#38;A</h2>
                 <h3 class="section-subheading text-muted">大盛り(5조)</h3>
             </div>
-			
-			<a class="btn btn-success" href="javascript:void(0)" id="createNewQnA"> 새 글 쓰기</a>
-
+			@can('create')
+				<a class="btn btn-success" href="javascript:void(0)" id="createNewQnA"> 새 글 쓰기</a>
+			@endcan
 			<div class="py-4">
 				<table class="table table-bordered data-table">
 					<colgroup>

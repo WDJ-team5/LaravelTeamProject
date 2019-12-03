@@ -7,15 +7,15 @@ use \App\Http\Requests\SessionsRequest;
 
 class SessionsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest', ['except' => 'destroy']);
-    }
+	public function __construct()
+	{
+		$this->middleware('guest', ['except' => 'destroy']);
+	}
 
-    public function create()
-    {
-        return view('sessions.create');
-    }
+	public function create()
+	{
+		return view('sessions.create');
+	}
 
     public function store(SessionsRequest $request)
     {

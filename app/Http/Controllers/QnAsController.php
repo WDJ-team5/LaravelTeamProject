@@ -7,6 +7,10 @@ use DataTables;
 
 class QnAsController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
 	
     public function index(Request $request)
     {
@@ -53,8 +57,10 @@ class QnAsController extends Controller
 	}
 
 	public function edit($id)
-	{
+	{	
 		$article = \App\Article::find($id);
+		
+		$this->authorize('update', $article);
 		
 		return response()->json($article);
 	}
@@ -72,6 +78,10 @@ class QnAsController extends Controller
 
 	public function destroy($id)
 	{
+		$article = \App\Article::find($id);
+		
+		$this->authorize('update', $article);
+		
 		\App\Article::find($id)->delete();
 
 		return response()->json(['success'=>'Article deleted successfully.']);
