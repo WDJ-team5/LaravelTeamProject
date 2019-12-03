@@ -43,6 +43,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('sessions.destroy') }}">{{ __('Logout') }}</a>
+							<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>
                         </div>
                     </li>
                 @endguest
