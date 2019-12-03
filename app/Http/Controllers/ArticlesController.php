@@ -33,6 +33,7 @@ class ArticlesController extends Controller
         }
         $article = Article::latest()->get();
         //article db가져옴
+		
      
         return view('article',compact('article'));
     }
@@ -49,7 +50,7 @@ class ArticlesController extends Controller
     }
 
     //게시글 저장
-    public function store(\App\Http\Requests\ArticlesRequest $request)
+    public function store(Request $request)
     {
         /* Article::updateOrCreate(['id' => $request->article_id],
                 ['title' => $request->title, 'content' => $request->content]); */        

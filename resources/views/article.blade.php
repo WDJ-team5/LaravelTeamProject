@@ -95,7 +95,11 @@
         processing: true,
         serverSide: true,
         ajax: "{{ route('articles.index') }}",
-        columns: [
+		// ajax: {
+		// 	"{{ route('articles.index') }}",
+		// 	"dataType": "json"
+		// }
+		columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'title', name: 'title'},
             {data: 'content', name: 'content'},
@@ -130,24 +134,24 @@
         e.preventDefault();
         $(this).html('Save');
     
-        $.ajax({
-          data: $('#articleForm').serialize(),
-          url: "{{ route('articles.store') }}",
-          type: "POST",
-          dataType: 'json',
-          success: function (data) {
-     
-              $('#articleForm').trigger("reset");
-              $('#ajaxModel').modal('hide');
-              table.draw();
-         
-          },
+			$.ajax({
+			data: $('#articleForm').serialize(),
+			url: "{{ route('articles.store') }}",
+			type: "POST",
+			dataType: 'json',
+			success: function (data) {
 
-          error: function (data) {
-              console.log('Error:', data);
-              $('#saveBtn').html('저장실패');
-          }
-      });
+			  $('#articleForm').trigger("reset");
+			  $('#ajaxModel').modal('hide');
+			  table.draw();
+
+			},
+
+			error: function (data) {
+			  console.log('Error:', data);
+			  $('#saveBtn').html('저장실패');
+			}
+			});
     });
     
 
