@@ -40,7 +40,7 @@
             </div>
 
             <div class="modal-body">
-                <form id="articleForm" name="articleForm" class="form-horizontal">
+                <form id="articleForm" name="articleForm" class="form-horizontal"  enctype="multipart/form-data">
                    <input type="hidden" name="article_id" id="article_id">
 
                    <!-- 제목 폼 -->
@@ -58,16 +58,13 @@
                             <textarea id="content" name="content" required="" placeholder="Enter content" class="form-control"></textarea>
                         </div>
                     </div>
-
-
-                <form action="{{route('articles.store')}}" method="POST" enctype="multipart/form-data" class="form__article">
+               
                     <!-- 파일첨부 폼 -->
-                    <div class="form-group {{$errors->has('files')?'has-error':''}}">
+                    <!-- <div class="form-group">
                         <label for="files">파일</label>
                         <input type="file" name="files[]" id="files" class="form-control" multiple="multiple"/>
                         {!! $errors->first('files.0', '<span class="form-error">:message</span>') !!}
-                    </div>
-                </form>
+                    </div> -->
       
                     <!-- 게시글 저장버튼 -->
                     <div class="col-sm-offset-2 col-sm-10">

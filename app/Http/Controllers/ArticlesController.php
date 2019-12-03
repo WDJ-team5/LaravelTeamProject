@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article; 
+use App\Attachment;
 use DataTables;
 
 class ArticlesController extends Controller
@@ -51,9 +52,7 @@ class ArticlesController extends Controller
 
     //게시글 저장
     public function store(Request $request)
-    {
-        /* Article::updateOrCreate(['id' => $request->article_id],
-                ['title' => $request->title, 'content' => $request->content]); */        
+    {	
         auth()->user()->articles()->updateOrCreate(['id' => $request->article_id], 
         ['title' => $request->title, 'content' => $request->content]);
         
