@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Article; 
 use DataTables;
 
-class ArticlesController extends Controller
+class QnAsController extends Controller
 {
 	
     public function index(Request $request)
@@ -18,9 +18,11 @@ class ArticlesController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editArticle">수정하기</a>';
+                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editQnA">수정하기</a>';
    
-                           $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteArticle">삭제하기</a>';
+                           $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">삭제하기</a>';
+							
+							$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">읽기</a>';
     
                             return $btn;
                     })
@@ -31,7 +33,7 @@ class ArticlesController extends Controller
         //article db가져옴
 		
      
-        return view('article',compact('article'));
+        return view('qna',compact('article'));
     }
 
     public function create()
@@ -41,9 +43,7 @@ class ArticlesController extends Controller
 
     //게시글 저장
     public function store(Request $request)
-    {
-        /* Article::updateOrCreate(['id' => $request->article_id],
-                ['title' => $request->title, 'content' => $request->content]); */        
+    {        
         auth()->user()->articles()->updateOrCreate(['id' => $request->article_id], 
         ['title' => $request->title, 'content' => $request->content]);
         
@@ -52,7 +52,8 @@ class ArticlesController extends Controller
 
     public function show($id)
     {
-        //
+        $article = Article::find($id);
+        return response()->json($article);
     }
 
     public function edit($id)
