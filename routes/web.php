@@ -67,3 +67,4 @@ Route::resources([
 	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
     'articles' => 'ArticlesController',//게시판 글 라우터(질의응답될 예정)
 ]);
+
