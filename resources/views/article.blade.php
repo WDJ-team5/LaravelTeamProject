@@ -102,6 +102,7 @@
     });
 
 
+	  // 새 글쓰기 버튼 클릭시
     $('#createNewArticle').click(function () {
         $('#saveBtn').val("create-article");
         $('#article_id').val('');
@@ -111,6 +112,7 @@
     });
 
 
+	  // 수정 버튼 클릭시
     $('body').on('click', '.editArticle', function () {
       var article_id = $(this).data('id');
       $.get("{{ route('articles.index') }}" +'/' + article_id +'/edit', function (data) {
@@ -124,6 +126,7 @@
    });
 
 
+	  // 게시글 저장 버튼 클릭시 
     $('#saveBtn').click(function (e) {
         e.preventDefault();
         $(this).html('Save');
