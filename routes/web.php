@@ -64,5 +64,6 @@ Route::post('auth/reset', [//비밀번호 변경
 ]);
 
 Route::resources([
-    'articles' => 'ArticlesController',//게시판 글 라우터
+	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
+    'articles' => 'ArticlesController',//게시판 글 라우터(질의응답될 예정)
 ]);
