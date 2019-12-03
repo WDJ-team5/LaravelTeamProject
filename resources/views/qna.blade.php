@@ -16,10 +16,12 @@
         processing: true,
         serverSide: true,
         ajax: "{{ route('qnas.index') }}",
+		order: [[1, "desc"]],
 		columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'id', name: 'id',},
             {data: 'title', name: 'title'},
-            {data: 'content', name: 'content'},
+			{data: 'name', name: 'name'},
+			{data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -133,12 +135,20 @@
 
 			<div class="py-4">
 				<table class="table table-bordered data-table">
+					<colgroup>
+						<col width='5%'/>
+          				<col width='*%'/>
+						<col width='8%'/>
+						<col width='10%'/>
+          				<col width='20%'/>
+					</colgroup>
 					<thead>
 						<tr>
 							<th>No</th>
 							<th>Title</th>
-							<th>Content</th>
-							<th width="300px">Action</th>
+							<th>name</th>
+							<th>created_at</th>
+							<th width="200px">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -164,7 +174,7 @@
             <div class="modal-body">
                 <form id="QnAForm" name="QnAForm" class="form-horizontal">
                    <input type="hidden" name="QnA_id" id="QnA_id">
-
+					
                    <!-- 제목 폼 -->
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">제목</label>
