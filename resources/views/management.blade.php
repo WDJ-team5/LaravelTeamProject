@@ -10,85 +10,21 @@
     });
 
 
+	// 유저를 뿌려줌
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('articles.index') }}",
+        ajax: "{{ route('managements.index') }}",
 		columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'title', name: 'title'},
             {data: 'content', name: 'content'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
-    });
-
-
-    $('#createNewArticle').click(function () {
-        $('#saveBtn').val("create-article");
-        $('#article_id').val('');
-        $('#articleForm').trigger("reset");
-        $('#modelHeading').html("Create New Article");
-        $('#ajaxModel').modal('show');
-    });
-
-
-    $('body').on('click', '.editArticle', function () {
-      var article_id = $(this).data('id');
-      $.get("{{ route('articles.index') }}" +'/' + article_id +'/edit', function (data) {
-          $('#modelHeading').html("Edit Article");
-          $('#saveBtn').val("edit-article");
-          $('#ajaxModel').modal('show');
-          $('#article_id').val(data.id);
-          $('#title').val(data.title);
-          $('#content').val(data.content);
-      })
-   });
-
-
-    $('#saveBtn').click(function (e) {
-        e.preventDefault();
-        $(this).html('Save');
-    
-			$.ajax({
-			data: $('#articleForm').serialize(),
-			url: "{{ route('articles.store') }}",
-			type: "POST",
-			dataType: 'json',
-			success: function (data) {
-
-			  $('#articleForm').trigger("reset");
-			  $('#ajaxModel').modal('hide');
-			  table.draw();
-
-			},
-
-			error: function (data) {
-			  console.log('Error:', data);
-			  $('#saveBtn').html('저장실패');
-			}
-			});
-    });
-    
-
-
-    $('body').on('click', '.deleteArticle', function () {
-     
-        var article_id = $(this).data("id");
-        confirm("삭제하시겠습니까?");
-      
-        $.ajax({
-            type: "DELETE",
-            url: "{{ route('articles.store') }}"+'/'+article_id,
-            success: function (data) {
-                table.draw();
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
-        });
-    });
-     
-  });
+    });		
+ });
+	
+	
 </script>
 @endsection
 
@@ -148,10 +84,6 @@
                         </div>
                     </div>
       
-                    <!-- 게시글 저장버튼 -->
-                    <div class="col-sm-offset-2 col-sm-10">
-                     <button type="submit" class="btn btn-primary" id="saveBtn" value="create">저장하기</button>
-                    </div>
                 </form>
             </div>
         </div>
