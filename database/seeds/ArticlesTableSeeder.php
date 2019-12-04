@@ -11,7 +11,7 @@ class ArticlesTableSeeder extends Seeder
     {	
 		for($i=1;$i<30;$i++) {
 			App\User::find($i)->articles()->create([	
-				'article_type' => '현지학기제용글',
+				'article_type' => 'LS',
 				'title' => '현지학기줴 제목'.$i,
 				'content' => '현지학기제 내용'.$i,
         	]);
