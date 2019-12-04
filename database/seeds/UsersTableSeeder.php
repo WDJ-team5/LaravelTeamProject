@@ -59,6 +59,16 @@ class UsersTableSeeder extends Seeder
         ]);
 		
 		App\User::create([	
+            'rank' => 'B',	
+            'email' => 'dwg04045@gmail.com',	
+            'password' => bcrypt('1234'),	
+            'name' => '장성현',	
+            'birth' => '1997-04-02',
+            'gender' => 'men',	
+            'activated' => '1',	
+        ]);
+		
+		App\User::create([	
             'rank' => 'C',	
             'email' => 'r7042@naver.com',	
             'password' => bcrypt('1234'),	
