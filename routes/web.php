@@ -68,9 +68,3 @@ Route::resources([
 // <<<<<<< HEAD
     'articles' => 'ArticlesController',//게시판 글 라우터(질의응답될 예정)
 ]);
-
-Route::resources([
-	'managements' => 'ManagementsController',//회원 관리 라우터
-    'qnas' => 'QnAsController',//질의응답 라우터
-]);
-// >>>>>>> 88958c9787f0c9ad55b398a9e0c1b0413cdb7271
