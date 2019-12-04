@@ -11,8 +11,8 @@
 
     <!-- Scripts -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    @yield('script')
+	<script src="{{ asset('js/app.js') }}"></script>
+	@yield('script')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,9 +20,11 @@
 
     <!-- Icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 
     <!-- Styles -->
+	<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>  	
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('style')
 </head>

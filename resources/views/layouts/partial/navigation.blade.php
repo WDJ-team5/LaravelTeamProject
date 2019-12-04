@@ -19,7 +19,7 @@
                     <a class="nav-link" href="#">현지학기제</a>
                 </li>
 				<li class="nav-item">
-                    <a class="nav-link" href="{{ route('articles.index') }}">질의응답</a>
+                    <a class="nav-link" href="{{ route('qnas.index') }}">질의응답</a>
                 </li>
             </ul>
 
