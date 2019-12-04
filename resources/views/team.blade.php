@@ -4,11 +4,17 @@
 <script>
     (function($) {
         window.onload = function(){
-            fetch('/team/create',{
+			fetch('/team/create',{
                 method: "GET",
-                headers: {"Content-Type": "application/json; charset=utf-8"},
-            }).then(e => e.json()).then(data => {
-                Array.from(data).forEach((info,index)=>{
+                headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }}).then(e => e.json()).then(data => {
+				console.log(data[1]);
+				if(data[1])
+					$('#add-team').parent().css('display','none');
+				Array.from(data[0]).forEach((info,index)=>{
                     makeElement(info,index);
                 });
             }).then(()=>{setEvents();});
@@ -49,10 +55,6 @@
                     if(clickStatus[index] == false){
                         var div = document.createElement('div');
                         div.className = 'timeline-body';
-                        var comment = document.createElement('input');
-                        //var comment = document.createElement('p');
-                        comment.className = 'text-muted'; 
-                        comment.id = 'comment-data';
                         var birthday = document.createElement('p');
                         birthday.className = 'text-muted';
                         id = e.currentTarget.id;
@@ -60,57 +62,67 @@
                         method: "GET"
                         }).then(e => e.json())
                         .then(function(data){
-                            birthday.innerHTML = '생일 : '+data[0].birth;
-                            //comment.innerHTML = '자기소개 : '+data[0].team.comment;
-                            comment.value = data[0].team.comment;
-                            id = data[0].team.id;
-                        });
-                        div.appendChild(birthday);
-                        div.appendChild(comment);
+                            birthday.innerHTML = '생일 : '+data[0][0].birth;
+							div.appendChild(birthday);
+							if(id == data[1]){
+								var comment = document.createElement('input');
+								comment.value = data[0][0].team.comment;
+								comment.className = 'text-muted'; 
+								comment.id = 'comment-data';
+								div.appendChild(comment);
+								makeUpdate(data[0][0].team.id);
+							}else{
+								var comment = document.createElement('p');
+								comment.innerHTML = '자기소개 : '+data[0][0].team.comment;
+                            	div.appendChild(comment);
+							}
+						});
                         // 이건 본인이나 관리자만
-                        var updateBtn = document.createElement('button');
-                        updateBtn.innerHTML = '수정';
-                        updateBtn.addEventListener('click',function(e){
-                            var commentData = $('#comment-data').val();
-                            fetch('/team/'+id,{
-                                method:"PUT",
-                                headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                },
-                                body:JSON.stringify({'comment': commentData})
-                            }).then(function(e){
-                                target.removeChild(target.lastChild)
-                                clickStatus[index] = false;
-                            });
-                        });
-                        div.appendChild(updateBtn);
+						
+						function makeUpdate(id){
+							var updateBtn = document.createElement('button');
+							updateBtn.innerHTML = '수정';
+							updateBtn.addEventListener('click',function(e){
+								var commentData = $('#comment-data').val();
+								fetch('/team/'+id,{
+									method:"PUT",
+									headers: {
+									'Content-Type': 'application/json',
+									'Accept': 'application/json',
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+									},
+									body:JSON.stringify({'comment': commentData})
+								}).then(function(e){
+									target.removeChild(target.lastChild)
+									clickStatus[index] = false;
+								});
+							});
+							div.appendChild(updateBtn);
 
-                        var deleteBtn = document.createElement('button');
-                        deleteBtn.innerHTML = '삭제';
-                        deleteBtn.addEventListener('click',function(e){
-                            fetch('/team/'+id,{
-                                method:"DELETE",
-                                headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                },
-                            }).then(function(e){
-                                var deleteTarget = target.parentNode;
-                                deleteTarget.parentNode.removeChild(deleteTarget);
-                                var lis = $('#team-ul > li');
-                                console.log(deleteTarget);
-                                console.log(lis);
-                                for(var i = 0;i < lis.length;i++){ 
-                                    if(i%2!=0)
-                                        lis[i].className = 'timeline-inverted';
-                                    else lis[i].className = '';
-                                }
-                            });
-                        });
-                        div.appendChild(deleteBtn);
+							var deleteBtn = document.createElement('button');
+							deleteBtn.innerHTML = '삭제';
+							deleteBtn.addEventListener('click',function(e){
+								fetch('/team/'+id,{
+									method:"DELETE",
+									headers: {
+									'Content-Type': 'application/json',
+									'Accept': 'application/json',
+									'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+									},
+								}).then(function(e){
+									var deleteTarget = target.parentNode;
+									deleteTarget.parentNode.removeChild(deleteTarget);
+									$('#add-team').parent().css('display','block');	
+									var lis = $('#team-ul > li');
+									for(var i = 0;i < lis.length;i++){ 
+										if(i%2!=0)
+											lis[i].className = 'timeline-inverted';
+										else lis[i].className = '';
+									}
+								});
+							});
+							div.appendChild(deleteBtn);
+						}
                         target.appendChild(div);
                         clickStatus[index] = true;
                     }
@@ -163,6 +175,7 @@
                     credentials: "same-origin",
                     body:JSON.stringify({'comment': comment})})
                 .then(e => e.json()).then(e=>{
+					$('#add-team').parent().css('display','none');
                     var ls_container = document.getElementById('team-modal');
                     ls_container.innerHTML='';
                     ls_container.style.display = 'none';
@@ -430,6 +443,7 @@
 @endsection
 
 @section('content')
+<meta id = 'user-data'>
 <section class="page-section" id="about">
     <div class="container">
       <div class="row">
