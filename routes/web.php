@@ -65,9 +65,9 @@ Route::post('auth/reset', [//비밀번호 변경
     'as' => 'reset.store',
     'uses' => 'PasswordsController@postReset',
 ]);
-
 Route::resources([
 	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
 	'managements' => 'ManagementsController',//회원 관리 라우터
     'qnas' => 'QnAsController',//질의응답 라우터
+	'team' => 'TeamsController',
 ]);

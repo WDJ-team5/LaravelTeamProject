@@ -80,7 +80,7 @@ class QnAsController extends Controller
 	{
 		$article = \App\Article::find($id);
 		
-		$this->authorize('update', $article);
+		$this->authorize('delete', $article);
 		
 		\App\Article::find($id)->delete();
 
