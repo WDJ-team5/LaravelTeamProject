@@ -107,8 +107,11 @@
 
 				
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block text-uppercase" type="submit">가 입 하 기</button>
-                    {{-- <button class="btn btn-primary btn-block text-uppercase" type="submit">수 정 완 료</button> --}}
+					@guest
+                    	<button class="btn btn-primary btn-block text-uppercase" type="submit">가 입 하 기</button>
+					@else
+                    	<button class="btn btn-primary btn-block text-uppercase" type="submit">수 정 완 료</button>
+					@endguest
                 </div>
             </form>
         </div>

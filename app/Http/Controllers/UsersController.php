@@ -8,7 +8,7 @@ class UsersController extends Controller
 {
 	public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['edit']]);
     }
 	
     public function create()
@@ -60,4 +60,14 @@ class UsersController extends Controller
 
         return redirect('/');
     }
+	
+	public function edit($id)
+	{
+		$user = \App\User::find($id);
+		
+		return view('users.create', [
+			'user' => $user,
+		]);
+	}
+	
 }
