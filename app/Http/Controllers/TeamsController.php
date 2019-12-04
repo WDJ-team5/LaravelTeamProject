@@ -22,10 +22,15 @@ class TeamsController extends Controller
      */
     public function create()
     {
-//        $teams = \App\Team::with('user')->get();
         $teams = \App\Team::with(array('user'=>function($query){
             $query->select('name','email','id');}))->get(['id','user_id']);
-        return response()->json($teams);
+		if(!auth()->check())
+        	return response()->json([$teams,true]);
+		$check = \App\Team::where('user_id',auth()->user()->id)->doesntExist();
+		$user = auth()->user();
+		if($check  && ($user->rank === 'B' || $user->rank === 'A'))
+        	return response()->json([$teams,false]);
+		return response()->json([$teams,true]);
     }
 
     /**
@@ -36,9 +41,13 @@ class TeamsController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = $request->comment;
-        $id = auth()->user()->id;
-        \App\User::find($id)->team()->create(['comment'=>$comment]);
+		if(!auth()->check())
+        	return;
+		$user = auth()->user();
+		if($user->rank !== 'B' && $user->rank !== 'A')
+			return;
+		$comment = $request->comment;
+        \App\User::find($user->id)->team()->create(['comment'=>$comment]);
         return response()->json(auth()->user());
     }
 
@@ -51,7 +60,12 @@ class TeamsController extends Controller
     public function show($id)
     {
         $team = \App\User::where('id',$id)->with('team')->get();
-        return response()->json($team);
+		
+		if(!auth()->check())
+        	return response()->json([$team,-1]);
+        $user = auth()->user();
+		$data = $user->id;
+		return response()->json([$team,$data]);
         //get / /{}
     }
 
@@ -75,7 +89,9 @@ class TeamsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        \App\Team::find($id)->update($request->all());
+		$team = \App\Team::find($id);
+		$this->authorize('update', $team);
+        $team->update($request->all());
     }
 
     /**
@@ -86,6 +102,8 @@ class TeamsController extends Controller
      */
     public function destroy($id)
     {
+		$team = \App\Team::find($id);
+		$this->authorize('delete', $team);
         \App\Team::find($id)->delete();
         return response()->json([],204);
 
