@@ -19,7 +19,7 @@
                     <a class="nav-link" href="#">현지학기제</a>
                 </li>
 				<li class="nav-item">
-                    <a class="nav-link" href="{{ route('articles.index') }}">질의응답</a>
+                    <a class="nav-link" href="{{ route('qnas.index') }}">질의응답</a>
                 </li>
             </ul>
 
@@ -41,11 +41,11 @@
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="#">회원정보수정</a>
 							<a class="dropdown-item" href="{{ route('myarticles.index') }}">내가 쓴글</a>
                             <a class="dropdown-item" href="{{ route('sessions.destroy') }}">{{ __('Logout') }}</a>
-							<a class="dropdown-item" href="#">회원 관리</a>
+							<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>
                         </div>
                     </li>
                 @endguest

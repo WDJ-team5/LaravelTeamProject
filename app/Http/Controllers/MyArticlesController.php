@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Article;
 use DataTables;
+
 
 class MyArticlesController extends Controller
 {
@@ -37,7 +36,8 @@ class MyArticlesController extends Controller
         return view('myarticle',compact('article'));
     }
 
-
+	
+	
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +47,6 @@ class MyArticlesController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -63,7 +62,6 @@ class MyArticlesController extends Controller
         
         return response()->json(['success'=>'Article saved successfully.']);
     }
-
     /**
      * Display the specified resource.
      *
@@ -74,7 +72,6 @@ class MyArticlesController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,7 +86,7 @@ class MyArticlesController extends Controller
         $article = Article::find($id);
         return response()->json($article);
     }
-	
+
 	
 	
     /**
@@ -103,7 +100,6 @@ class MyArticlesController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

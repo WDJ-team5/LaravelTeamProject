@@ -29,7 +29,7 @@ $factory->define(App\User::class, function (Faker $faker) {
 
 $factory->define(App\Article::class, function (Faker $faker) {
     return [
-        'article_type' => '아나까나',
+        'article_type' => 'QnA',
         'title' => $faker->sentence(),
         'content' => $faker->paragraph()
     ];
