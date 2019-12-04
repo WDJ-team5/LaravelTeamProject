@@ -67,4 +67,5 @@ Route::resources([
 	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
 	'managements' => 'ManagementsController',//회원 관리 라우터
     'articles' => 'ArticlesController',//게시판 글 라우터(질의응답될 예정)
+	'team' => 'TeamsController',
 ]);
