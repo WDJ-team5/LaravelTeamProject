@@ -34,8 +34,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'activated' => 'boolean', 
-    ];
+        'activated' => 'boolean',
+	];
 	
     protected $dates = ['last_login'];
     

@@ -3,74 +3,87 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Article; 
 use DataTables;
 
 class QnAsController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
 	
     public function index(Request $request)
     {
-        
-        if ($request->ajax()) {
-            $data = Article::latest()->get();
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-   
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editQnA">수정하기</a>';
-   
-                           $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">삭제하기</a>';
-							
-							$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">읽기</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-        }
-        $article = Article::latest()->get();
-        //article db가져옴
-		
-     
+		if ($request->ajax()) {
+			$data = \App\User::join('articles', 'users.id', '=', 'articles.user_id')->where('article_type','QnA')->orderBy('articles.id','desc')->get();
+			return Datatables::of($data)
+				->addIndexColumn()
+				->addColumn('action', function($row){
+					$btn = '<div class="text-center"><a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">Show</a>';
+					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm editQnA">Edit</a>';
+					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">Delete</a></div>';
+					return $btn;
+				})
+				->rawColumns(['action'])
+				->make(true);
+		}
+	
         return view('qna',compact('article'));
     }
 
-    public function create()
-    {
+	public function create()
+	{
 
-    }
+	}
 
-    //게시글 저장
-    public function store(Request $request)
-    {        
-        auth()->user()->articles()->updateOrCreate(['id' => $request->article_id], 
-        ['title' => $request->title, 'content' => $request->content]);
-        
-        return response()->json(['success'=>'Article saved successfully.']);
-    }
+	public function store(Request $request)
+	{
+		auth()->user()->articles()->create([
+			'article_type' => 'QnA',
+			'title' => $request->title,
+			'content' => $request->content
+		]);
 
-    public function show($id)
-    {
-        $article = Article::find($id);
-        return response()->json($article);
-    }
+		return response()->json(['success'=>'Article saved successfully.']);
+	}
 
-    public function edit($id)
-    {
-        $article = Article::find($id);
-        return response()->json($article);
-    }
+	public function show($id)
+	{
+		$article = \App\Article::find($id);
+		
+		return response()->json($article);
+	}
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
+	public function edit($id)
+	{	
+		$article = \App\Article::find($id);
+		
+		$this->authorize('update', $article);
+		
+		return response()->json($article);
+	}
 
-    public function destroy($id)
-    {
-        Article::find($id)->delete();
-     
-        return response()->json(['success'=>'Article deleted successfully.']);
-    }
+	public function update(Request $request, $id)
+	{
+		\App\Article::find($id)->update([
+			'article_type' => 'QnA',
+			'title' => $request->title,
+			'content' => $request->content
+		]);
+		
+		return response()->json(['success'=>'Article updated successfully.']);
+	}
+
+	public function destroy($id)
+	{
+		$article = \App\Article::find($id);
+		
+		$this->authorize('update', $article);
+		
+		\App\Article::find($id)->delete();
+
+		return response()->json(['success'=>'Article deleted successfully.']);
+	}
 }
