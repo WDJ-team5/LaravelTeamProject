@@ -54,7 +54,6 @@
                 <h2 class="">{{ __('Register') }}</h2>
                 <h3 class="">Please edit your membership information.</h3>
             </div>
-			
             <form action="{{ route('users.store') }}" method="POST">
                 @csrf
 				
@@ -114,6 +113,7 @@
 					@endguest
                 </div>
             </form>
+
         </div>
     </div>
 </div>
