@@ -78,6 +78,6 @@ Route::resources([
 	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
 	'managements' => 'ManagementsController',//회원 관리 라우터
     'qnas' => 'QnAsController',//질의응답 라우터
-	'team' => 'TeamsController',
+	'teams' => 'TeamsController',//조원소개 라우터
 	'localsemesters' => 'LocalSemestersController'
 ]);
