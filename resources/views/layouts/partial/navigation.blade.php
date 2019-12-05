@@ -42,7 +42,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="">회원정보수정</a>
+							<a class="dropdown-item" href="/auth/{{ Auth::user()->id }}/edit">회원정보수정</a>
 							<a class="dropdown-item" href="{{ route('myarticles.index') }}">내가 쓴글</a>
                             <a class="dropdown-item" href="{{ route('sessions.destroy') }}">{{ __('Logout') }}</a>
 							<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>

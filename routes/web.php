@@ -30,7 +30,15 @@ Route::get('auth/confirm/{code}', [//가입인증
     'as' => 'users.confirm',
     'uses' => 'UsersController@confirm',
 ]);
-
+Route::get('auth/{user}/edit', [//회원정보수정 폼 이동
+    'uses' => 'UsersController@edit',
+]);
+Route::get('/auth/info/{id}',[
+	'uses' => 'UsersController@info'
+]);
+Route::patch('auth/{user}/patch', [// 정보수정
+     'uses' => 'UsersController@update',
+]);
 /* 사용자 인증 */
 Route::get('auth/login', [//로그인 폼으로 이동
     'as' => 'sessions.create',
