@@ -42,7 +42,7 @@
 			var title = document.getElementById('ls-modal-title').value;
 			var content = document.getElementById('ls-modal-content').value;
 			var filename = document.getElementById('ls-modal-file').files;
-			console.log(filename[0].name);
+			console.log(filename);
 			$.ajax({
 				type: 'POST', 
 				url: '/localsemesters',
@@ -53,7 +53,7 @@
 				data: JSON.stringify({
 					'title': title,
 					'content': content,
-					'filename': filename[0].name,
+					'filename': filename[0],
 				}),
 				success : function(data) {
 					console.log(data);

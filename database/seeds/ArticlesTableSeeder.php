@@ -14,7 +14,7 @@ class ArticlesTableSeeder extends Seeder
 				'article_type' => 'LS',
 				'title' => '현지학기줴 제목'.$i,
 				'content' => '현지학기제 내용'.$i,
-				'file' => '01_gettyimages-517750577_medium_resized.jpg',
+				'file' => null,
         	]);
 		}
 		

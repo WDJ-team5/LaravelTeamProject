@@ -47,16 +47,16 @@ class LocalSemestersController extends Controller
         $id = auth()->user()->id;
 		// $file = $request->file('file');
 		// dd($file);
-		$filename = $request->filename;
-		$decoyname = Str::random(15).filter_var($request->$originalname,FILTER_SANITIZE_URL);
-		dd($decoyname);
+		$filename = $request->file('file');
+		
+		$decoyname = Str::random(15).filter_var($filename,FILTER_SANITIZE_URL);
 		$filename->move(public_path('files'),$decoyname);
 		
         $localSemester = \App\User::find($id)->articles()->create([
 			'title'=>$title,
 			'article_type'=>'ls',
 			'content'=>$content,
-			'filename'=>$filename,
+			'filename'=>$decoyname,
         ]);
         $data = \App\Article::where('id',$localSemester->id)->with('user')->get();
         return response()->json($data, 201);

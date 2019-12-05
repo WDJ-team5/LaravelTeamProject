@@ -32,6 +32,5 @@ $factory->define(App\Article::class, function (Faker $faker) {
         'article_type' => 'QnA',
         'title' => $faker->sentence(),
         'content' => $faker->paragraph(),
-		'file' => $faker->paragraph(),
     ];
 });
