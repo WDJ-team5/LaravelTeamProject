@@ -8,7 +8,7 @@ class UsersController extends Controller
 {
 	public function __construct()
     {
-        $this->middleware('guest', ['except' => ['edit','info','update']]);
+        $this->middleware('guest', ['except' => ['show','edit','update']]);
     }
 	
     public function create()
@@ -61,18 +61,31 @@ class UsersController extends Controller
         return redirect('/');
     }
 	
+	public function show()
+	{
+		$user = auth()->user();
+		return response()->json($user); 
+	}
+	
 	public function edit($id)
 	{
 		return view('users.create', [
 			'id' => $id,
 		]);
 	}
-	public function info(){
-		$user = auth()->user();
-		return response()->json($user); 
-	}
-	public function update(Request $request, $id){
-		App\User::find($id)->update($request->all());
+	
+	public function update(Request $request, $id)
+	{
+		$birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
+		
+		\App\User::find($id)->update([
+            'password' => bcrypt($request->input('password')),
+            'name' => $request->input('name'),
+            'birth' => $birthday,
+            'gender' => $request->input('gender'),
+        ]);
+		
 		return redirect('/');
 	}
+	
 }

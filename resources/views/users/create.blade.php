@@ -2,53 +2,52 @@
 
 @section('script')
 <script>
-	(function($) {
-		window.onload = function(){
+	window.onload = function(){
 
-			var date = new Date();
-			var year = date.getFullYear();
-			var selectYear = document.getElementById("year");
-			var selectMonth = document.getElementById("month"); 
-			var selectDay = document.getElementById("day");
+		var date = new Date();
+		var year = date.getFullYear();
+		var selectYear = document.getElementById("year");
+		var selectMonth = document.getElementById("month"); 
+		var selectDay = document.getElementById("day");
 
 
-			for(var i=year-100;i<=year;i++){
-					selectYear.add(new Option(i+"년"));  
-			}
-
-			for(var i=1;i<=12;i++){
-					selectMonth.add(new Option(i+"월"));
-			}
-
-			for(var i=1;i<=31;i++){
-					selectDay.add(new Option(i+"일"));
-			}
-			var id = $('#email').attr('name');
-			if(id != 'email'){
-				fetch('/auth/info/'+id,{
-					method: "GET",
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json',
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-				}})
-				.then(e => e.json())
-				.then(data => {
-					console.log('d');
-					$('#email').text(data.email);
-					$('#name').val(data.name);
-					var birth = data.birth;
-					var year = birth.substring(0,4)+'년';
-					var month = birth.substring(5,7).replace(/(^0+)/,"")+'월';
-					var day = birth.substring(8,10).replace(/(^0+)/,"")+'일';
-					$('#year').val(year).attr('selected','selected');
-					$('#month').val(month).attr('selected','selected');
-					$('#day').val(day).attr('selected','selected');
-					$('#gender').val(data.gender).attr('selected','selected');
-				});
-			}
+		for(var i=year-100;i<=year;i++){
+				selectYear.add(new Option(i+"년"));  
 		}
-	})(jQuery);
+
+		for(var i=1;i<=12;i++){
+				selectMonth.add(new Option(i+"월"));
+		}
+
+		for(var i=1;i<=31;i++){
+				selectDay.add(new Option(i+"일"));
+		}
+
+		var id = $('#email').attr('name');
+		alert(id!='email');
+		if(id != 'email'){
+			fetch('/auth/register/'+id,{
+				method: "GET",
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+			}})
+			.then(e => e.json())
+			.then(data => {
+				$('#email').text(data.email);
+				$('#name').val(data.name);
+				var birth = data.birth;
+				var year = birth.substring(0,4)+'년';
+				var month = birth.substring(5,7).replace(/(^0+)/,"")+'월';
+				var day = birth.substring(8,10).replace(/(^0+)/,"")+'일';//이걸 이렇게 쪼개네 주후니ㅋㅋㅋㅋ
+				$('#year').val(year).attr('selected','selected');
+				$('#month').val(month).attr('selected','selected');
+				$('#day').val(day).attr('selected','selected');
+				$('#gender').val(data.gender).attr('selected','selected');
+			});
+		}
+	}
 </script>
 @endsection
 
@@ -81,7 +80,7 @@
 			@guest
             <form action="{{ route('users.store') }}" method="POST">
 			@else
-			<form action="/auth/{{$id}}/patch" method="POST">
+			<form action="/auth/register/{{$id}}}" method="POST">
 				@method('patch')
 			@endguest
 				@csrf
