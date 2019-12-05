@@ -8,9 +8,9 @@ class Article extends Model
 {
     protected $fillable = ['title', 'content', 'article_type', 'filename'];
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo('App\User');
     }
-
+	
 }

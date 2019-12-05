@@ -15,15 +15,16 @@ class QnAsController extends Controller
     public function index(Request $request)
     {
 		if ($request->ajax()) {
+			
 			$data = \App\User::join('articles', 'users.id', '=', 'articles.user_id')->where('article_type','QnA')->orderBy('articles.id','desc')->get();
 			return Datatables::of($data)
 				->addIndexColumn()
 				->addColumn('action', function($row){
-					$btn = '<div class="text-center"><a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">Show</a>';
+					$btn = '<div class="text-center"><a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">읽기</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
-					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm editQnA">Edit</a>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editQnA">수정</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
-					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">Delete</a></div>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">삭제</a></div>';
 					return $btn;
 				})
 				->rawColumns(['action'])
@@ -33,11 +34,15 @@ class QnAsController extends Controller
         return view('qna',compact('article'));
     }
 
+	
+	
 	public function create()
 	{
-
+		
 	}
 
+	
+	
 	public function store(Request $request)
 	{
 		auth()->user()->articles()->create([
