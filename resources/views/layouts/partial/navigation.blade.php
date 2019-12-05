@@ -45,7 +45,9 @@
 							<a class="dropdown-item" href="/auth/register/{{ Auth::user()->id }}/edit">회원정보수정</a>
 							<a class="dropdown-item" href="{{ route('myarticles.index') }}">내가 쓴글</a>
                             <a class="dropdown-item" href="{{ route('sessions.destroy') }}">{{ __('Logout') }}</a>
-							<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>
+							@can('admin')
+								<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>
+							@endcan
                         </div>
                     </li>
                 @endguest

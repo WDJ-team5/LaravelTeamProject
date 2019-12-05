@@ -37,6 +37,8 @@ class QnAsController extends Controller
 
 	public function store(Request $request)
 	{
+		$this->authorize('create');
+		
 		auth()->user()->articles()->create([
 			'article_type' => 'QnA',
 			'title' => $request->title,
@@ -58,7 +60,6 @@ class QnAsController extends Controller
 	public function edit($id)
 	{	
 		$article = \App\Article::find($id);
-		
 		$this->authorize('update', $article);
 		
 		return response()->json($article);
@@ -80,7 +81,6 @@ class QnAsController extends Controller
 	public function destroy($id)
 	{
 		$article = \App\Article::find($id);
-		
 		$this->authorize('delete', $article);
 		
 		\App\Article::find($id)->delete();

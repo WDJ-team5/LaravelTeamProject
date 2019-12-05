@@ -38,11 +38,6 @@ class User extends Authenticatable
 	];
 	
     protected $dates = ['last_login'];
-	
-	public function isAdmin()
-	{
-		return ($this->rank === "A") ? true : false;
-	}
     
     public function articles()
     {
