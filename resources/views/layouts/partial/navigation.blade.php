@@ -13,7 +13,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <!-- menu -->
 				<li class="nav-item">
-                    <a class="nav-link" href="{{ route('team.index')}}">조원소개</a>
+                    <a class="nav-link" href="{{ route('teams.index')}}">조원소개</a>
                 </li>
 				<li class="nav-item">
                     <a class="nav-link" href="#">현지학기제</a>
@@ -42,7 +42,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="/auth/{{ Auth::user()->id }}/edit">회원정보수정</a>
+							<a class="dropdown-item" href="/auth/register/{{ Auth::user()->id }}/edit">회원정보수정</a>
 							<a class="dropdown-item" href="{{ route('myarticles.index') }}">내가 쓴글</a>
                             <a class="dropdown-item" href="{{ route('sessions.destroy') }}">{{ __('Logout') }}</a>
 							<a class="dropdown-item" href="{{ route('managements.index') }}">회원 관리</a>

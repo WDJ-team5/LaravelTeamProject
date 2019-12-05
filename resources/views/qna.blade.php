@@ -116,11 +116,11 @@
 		$('body').on('click', '.showQnA', function () {
 			var QnA_id = $(this).data('id');
 			$.get("{{ route('qnas.index') }}" +'/' + QnA_id, function (data) {
-				$('#modelHeading2').html("글 읽는 즁");
+				$('#modelHeading2').text("Show QnA");
 				$('#ajaxModel02').modal('show');
 				$('#QnA_id2').val(data.id);
 				$('#title2').text(data.title);
-				$('#content2').text(data.content);
+				$('#content2').html(data.content);
 			})
 		});
 
@@ -135,7 +135,81 @@
 @endsection
 
 @section('style')
+<style>
+.portfolio-modal .modal-dialog {
+  margin: 1rem;
+  max-width: 100vw;
+}
 
+.portfolio-modal .modal-content {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.portfolio-modal .modal-content h2 {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.portfolio-modal .modal-content p {
+  margin-bottom: 30px;
+}
+
+.portfolio-modal .modal-content p.item-intro {
+  font-size: 16px;
+  font-style: italic;
+  margin: 20px 0 30px;
+  font-family: 'Droid Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.portfolio-modal .modal-content ul.list-inline {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.portfolio-modal .modal-content img {
+  margin-bottom: 30px;
+}
+
+.portfolio-modal .modal-content button {
+  cursor: pointer;
+}
+
+.portfolio-modal .close-modal {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.portfolio-modal .close-modal:hover {
+  opacity: 0.3;
+}
+
+.portfolio-modal .close-modal .lr {
+  /* Safari and Chrome */
+  z-index: 1051;
+  width: 1px;
+  height: 75px;
+  margin-left: 35px;
+  /* IE 9 */
+  transform: rotate(45deg);
+  background-color: #212529;
+}
+
+.portfolio-modal .close-modal .lr .rl {
+  /* Safari and Chrome */
+  z-index: 1052;
+  width: 1px;
+  height: 75px;
+  /* IE 9 */
+  transform: rotate(90deg);
+  background-color: #212529;
+}
+</style>
 @endsection
 
 @section('content')
@@ -176,13 +250,13 @@
     </div>
 </div>
 <!-- Create&Edit modal -->
-<div class="modal fade" id="ajaxModel01" aria-hidden="true">
+<div class="modal fade portfolio-modal" id="ajaxModel01" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			
 			<div class="modal-header">
 				<h4 class="modal-title" id="modelHeading"></h4>
-				<div>
+				<div class="close-modal">
 					<i class="fas fa-times fa-3x"></i>
 				</div>
 			</div>
@@ -203,13 +277,13 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">본문</label>
 						<div class="col-sm-12">
-							<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control"></textarea>
+							<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control" rows="20"></textarea>
 						</div>
 					</div>
 
 					<!-- 게시글 저장&수정버튼 -->
-					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary" id="saveBtn" value="create">저장하기</button>
+					<div class="">
+						<button type="submit" class="btn btn-block btn-primary" id="saveBtn" value="create">저장하기</button>
 					</div>
 				</form>
 			</div>
@@ -218,14 +292,14 @@
 	</div>
 </div>
 <!-- Show modal -->
-<div class="modal fade" id="ajaxModel02" aria-hidden="true">
+<div class="modal fade portfolio-modal" id="ajaxModel02" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
 			<div class="modal-header">
 				<h4 class="modal-title" id="modelHeading2"></h4>
-				<div>
-					<i class="fas fa-times fa-3x"></i>
+				<div class="close-modal">
+				<i class="fas fa-times fa-3x"></i>
 				</div>
 			</div>
 
@@ -240,7 +314,7 @@
 
 					<!-- 본문 -->
 					<div class="form-group">
-						<p id="content2"></p>
+						<pre id="content2"></pre>
 					</div>
 				</form>
 			</div>

@@ -30,15 +30,19 @@ Route::get('auth/confirm/{code}', [//가입인증
     'as' => 'users.confirm',
     'uses' => 'UsersController@confirm',
 ]);
-Route::get('auth/{user}/edit', [//회원정보수정 폼 이동
+Route::get('auth/register/{user}/edit', [//회원정보수정 폼 이동
+	'as' => 'users.edit',
     'uses' => 'UsersController@edit',
 ]);
-Route::get('/auth/info/{id}',[
-	'uses' => 'UsersController@info'
+Route::get('/auth/register/{id}',[//로그인한 회원정보 조회
+	'as' => 'users.show',
+	'uses' => 'UsersController@show',
 ]);
-Route::patch('auth/{user}/patch', [// 정보수정
-     'uses' => 'UsersController@update',
+Route::patch('auth/register/{user}', [// 회원정보수정
+	'as' => 'users.update',
+	'uses' => 'UsersController@update',
 ]);
+
 /* 사용자 인증 */
 Route::get('auth/login', [//로그인 폼으로 이동
     'as' => 'sessions.create',
@@ -74,5 +78,5 @@ Route::resources([
 	'myarticles' => 'MyArticlesController',//내가 쓴글 라우터
 	'managements' => 'ManagementsController',//회원 관리 라우터
     'qnas' => 'QnAsController',//질의응답 라우터
-	'team' => 'TeamsController',
+	'teams' => 'TeamsController',//조원소개 라우터
 ]);

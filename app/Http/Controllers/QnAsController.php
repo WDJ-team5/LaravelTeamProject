@@ -32,17 +32,9 @@ class QnAsController extends Controller
 		}
 	
         return view('qna',compact('article'));
+		
     }
 
-	
-	
-	public function create()
-	{
-		
-	}
-
-	
-	
 	public function store(Request $request)
 	{
 		auth()->user()->articles()->create([
@@ -52,6 +44,7 @@ class QnAsController extends Controller
 		]);
 
 		return response()->json(['success'=>'Article saved successfully.']);
+		
 	}
 
 	public function show($id)
@@ -59,6 +52,7 @@ class QnAsController extends Controller
 		$article = \App\Article::find($id);
 		
 		return response()->json($article);
+		
 	}
 
 	public function edit($id)
@@ -68,6 +62,7 @@ class QnAsController extends Controller
 		$this->authorize('update', $article);
 		
 		return response()->json($article);
+		
 	}
 
 	public function update(Request $request, $id)
@@ -79,6 +74,7 @@ class QnAsController extends Controller
 		]);
 		
 		return response()->json(['success'=>'Article updated successfully.']);
+		
 	}
 
 	public function destroy($id)
@@ -90,5 +86,7 @@ class QnAsController extends Controller
 		\App\Article::find($id)->delete();
 
 		return response()->json(['success'=>'Article deleted successfully.']);
+		
 	}
+	
 }

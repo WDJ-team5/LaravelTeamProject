@@ -4,7 +4,7 @@
 <script>
 	(function($) {
 		window.onload = function(){
-			fetch('/team/create',{
+			fetch('/teams/create',{
 				method: "GET",
 				headers: {
 					'Content-Type': 'application/json',
@@ -72,7 +72,7 @@
 						
 						id = e.currentTarget.id;
 						
-						fetch('/team/'+id,{
+						fetch('/teams/'+id,{
 							method: "GET"
 						})
 						.then(e => e.json())
@@ -99,7 +99,7 @@
 							updateBtn.innerHTML = '수정';
 							updateBtn.addEventListener('click',function(e){
 								var commentData = $('#comment-data').val();
-								fetch('/team/'+id,{
+								fetch('/teams/'+id,{
 									method:"PUT",
 									headers: {
 										'Content-Type': 'application/json',
@@ -118,7 +118,7 @@
 							var deleteBtn = document.createElement('button');
 							deleteBtn.innerHTML = '삭제';
 							deleteBtn.addEventListener('click',function(e){
-								fetch('/team/'+id,{
+								fetch('/teams/'+id,{
 									method:"DELETE",
 									headers: {
 										'Content-Type': 'application/json',
@@ -186,7 +186,7 @@
 			
 			function created(){
 				var comment = $('#comment').val();
-				fetch('/team',{
+				fetch('/teams',{
 					headers : { 
 						'Content-Type': 'application/json',
 						'Accept': 'application/json',
