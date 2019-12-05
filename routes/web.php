@@ -67,4 +67,5 @@ Route::resources([
 	'managements' => 'ManagementsController',//회원 관리 라우터
     'qnas' => 'QnAsController',//질의응답 라우터
 	'team' => 'TeamsController',
+	'localsemesters' => 'LocalSemestersController'
 ]);

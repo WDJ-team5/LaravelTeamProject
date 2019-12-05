@@ -16,7 +16,7 @@
                     <a class="nav-link" href="{{ route('team.index')}}">조원소개</a>
                 </li>
 				<li class="nav-item">
-                    <a class="nav-link" href="#">현지학기제</a>
+                    <a class="nav-link" href="{{ route('localsemesters.index') }}">현지학기제</a>
                 </li>
 				<li class="nav-item">
                     <a class="nav-link" href="{{ route('qnas.index') }}">질의응답</a>
