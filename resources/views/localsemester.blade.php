@@ -38,11 +38,14 @@
 			ls_modal_update.style.display = 'none';
 		});
 
-		$(document).on('click', '#button-save', function(e){
-			var title = document.getElementById('ls-modal-title').value;
-			var content = document.getElementById('ls-modal-content').value;
-			var filename = document.getElementById('ls-modal-file').files;
-			console.log(filename);
+		$(document).on('submit', '#button-save', function(e){
+			// var title = document.getElementById('ls-modal-title').value;
+			// var content = document.getElementById('ls-modal-content').value;
+			// var filename = document.getElementById('ls-modal-file').files;
+			var form = $('#ls-form')[0];
+	
+			var data = new FormData(form);
+			console.log(data);
 			$.ajax({
 				type: 'POST', 
 				url: '/localsemesters',
@@ -50,11 +53,10 @@
 				"Content-Type" : "application/json",
 				"X-HTTP-Method-Override" : "POST"
 				},
-				data: JSON.stringify({
-					'title': title,
-					'content': content,
-					'filename': filename[0],
-				}),
+				data: data,
+				dataType:"json",
+				contentType: false,
+	            processData: false,
 				success : function(data) {
 					console.log(data);
 					var ls_container = document.getElementById('ls-container');
@@ -283,8 +285,8 @@
     <div id='ls-modal-container'>
 
         <div class='ls-modal-content'>
-		<!-- <form action="{{ route('localsemesters.store') }}" id="ls-form" name="ls-form" method="post">
-			{!! csrf_field() !!} -->
+		<form action="{{ route('localsemesters.store') }}" id="ls-form" name="ls-form" method="post" enctype="multipart/form-data">
+			{!! csrf_field() !!}
 			<label for="ls-modal-title">제목</label>
 			<input type="text" id="ls-modal-title" name="title" placeholder="title" />
 			<br>
@@ -292,10 +294,10 @@
 			<textarea name="content" id="ls-modal-content" placeholder="content" rows="8" ></textarea>
 			<br>
 			<label for="ls-modal-file">파일</label>
-			<input type="file" name="file" id="ls-modal-file" class="form-control" multiple="multiple" />
+			<input type="file" name="file" id="ls-modal-file" class="form-control"/>
 			<br>
-			<input type="button" value="save" id="button-save" name="save"/>
-		<!-- </form> -->
+			<input type="submit" value="save" id="button-save" name="save"/>
+		</form>
         </div>
 
         <div class='ls-modal-show'>
