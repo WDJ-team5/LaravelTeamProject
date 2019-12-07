@@ -59,69 +59,30 @@
 					cache: false,
 					processData: false,
 					success:function(data){
-						console.log(data);
 						$('#ls-form').trigger("reset");
 						$('#ls-modal-create-container').modal('hide');
 						koko();
 					}
 				})
 			}else {
-				document.getElementById('hidden_method').innerHTML = '<input type="hidden" name="_method" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">';
+				$('#ls-form').prepend('<input type="hidden" id="httpMethod" name="_method" value="PUT">');
 				var id = $('#ls-modal-id').val();
-				var form = document.forms.namedItem('ls-form');
-				var formData = new FormData(form);
-				console.log(formData.has('file'));
 				$.ajax({
 					url:"/localsemesters/"+id,
 					method:"POST",
 					enctype: 'multipart/form-data',
-					data:formData,
+					data:new FormData(this),
 					dataType:'JSON',
 					contentType: false,
 					cache: false,
 					processData: false,
 					success:function(data){
-						console.log(data);
+						$('#httpMethod').remove();
 						$('#ls-form').trigger("reset");
 						$('#ls-modal-create-container').modal('hide');
 						koko();
 					}
 				});
-
-				
-				
-				
-				
-				// console.log(formData);
-				// $.ajax({
-				// 	url:"{{ route('localsemesters.store') }}"+'/'+id,
-				// 	method:"PUT",
-				// 	data:data,
-				// 	dataType:'JSON',
-				// 	//contentType: false,
-				// 	cache: false,
-				// 	processData: false,
-				// 	success:function(data){
-				// 		console.log(data);
-				// 		$.ajax({
-				// 			url:"/localsemesters/"+id+"/img",
-				// 			method:"POST",
-				// 			data:formData,
-				// 			dataType:'JSON',
-				// 			_method = put,
-				// 			contentType: false,
-				// 			cache: false,
-				// 			processData: false,
-				// 			success:function(data){
-				// 				console.log(data)
-				// 			}
-				// 		})
-				// 		$('#ls-form').trigger("reset");
-				// 		$('#ls-modal-create-container').modal('hide');
-				// 		koko();
-				//	}
-				//})
-				
 			}
 			
 		});
@@ -147,7 +108,6 @@
 
 		$(document).on('click', '.button-delete', function(e){
 			var id = $(this).attr('name');
-			console.log(id);
 			if(confirm("엠창?")){
 				$.ajax({
 					type: 'DELETE',
@@ -172,57 +132,12 @@
 					var imgPath = '';
 					if(data.file) {
 						imgPath = "http://"+document.location.hostname+"/files/"+data.file;
-						// document.querySelector('.ls-box-image2').src = imgPath;
 					}
 					$('.ls-box-image2').attr('src', imgPath);
 						
 				},
 			});
-			
-			// var QnA_id = $(this).data('id');
-			// $.get("{{ route('qnas.index') }}" +'/' + QnA_id, function (data) {
-			// 	$('#modelHeading2').text("Show QnA");
-			// 	$('#ajaxModel02').modal('show');
-			// 	$('#ls-modal-title2').text(data.title);
-			// 	$('#ls-modal-content2').html(data.content);
-			// 	if(data.file !== null) {
-			// 		$('.ls-box-image2').attr('src',data.file);
-			// 	}
-			// })
-			// var id = $(this).attr('name');
-			// console.log(e.target.getAttribute('name'));
-			// var ls_modal_container = document.getElementById('ls-modal-container');
-			// var ls_modal_content = document.querySelector('.ls-modal-content');
-			// var ls_modal_show = document.querySelector('.ls-modal-show');
-			// var ls_modal_update = document.querySelector('.ls-modal-update');
-			// var ls_modal_show_title = document.getElementById('ls-modal-show-title');
-			// var ls_modal_show_name = document.getElementById('ls-modal-show-name');
-			// var ls_modal_show_content = document.getElementById('ls-modal-show-content');
-			// ls_modal_container.style.display = 'block';
-			// ls_modal_show.style.display = 'block';
-			// ls_modal_content.style.display = 'none';
-			// ls_modal_update.style.display = 'none';
-			// $.ajax({
-			// 	type: 'GET',
-			// 	url: '/localsemesters/' + id,
-			// 	headers: {
-			// 		"Content-Type" : "application/json",
-			// 		"X-HTTP-Method-Override" : "POST"
-			// 	},
-			// }).then(function(data){
-			// 	ls_modal_show_title.innerHTML = '제목 : ' + data[0].title;
-			// 	ls_modal_show_name.innerHTML = '이름 : ' + data[0].user.name;
-			// 	ls_modal_show_content.innerHTML = '내용 : ' + data[0].content;
-			// })
 		})
-
-		// window.onclick = function(event) {
-		// 	var ls_modal_container = document.getElementById('ls-modal-container');
-		// 	if (event.target == ls_modal_container) {
-		// 		// ls_modal_container.innerHTML="";
-		// 		ls_modal_container.style.display = "none";
-		// 	}
-		// }
 		
 		/* etc */
 		$('.fa-times').click(function() {
@@ -365,9 +280,7 @@
 
 			<div class="modal-body">
 				<form id="ls-form" name="ls-form" enctype="multipart/form-data">
-					<div type="hidden" id="hidden_method">
-						
-					</div>
+
 					<input type="hidden" name="ls-modal-id" id="ls-modal-id">
 					
 					<div class="form-group">
