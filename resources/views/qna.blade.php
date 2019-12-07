@@ -220,7 +220,7 @@
                 <h3 class="section-subheading text-muted">大盛り(5조)</h3>
             </div>
 			@can('create')
-				<a class="btn btn-success" href="javascript:void(0)" id="createNewQnA"> 새 글 쓰기</a>
+				<a class="btn btn-success" href="javascript:void(0)" id="createNewQnA">글쓰기</a>
 			@endcan
 			<div class="py-4">
 				<table class="table table-bordered data-table">
