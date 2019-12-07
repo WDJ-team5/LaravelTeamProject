@@ -82,3 +82,4 @@ Route::resources([
 	'localsemesters' => 'LocalSemestersController',
 	'comments' => 'CommentsController',
 ]);
+
