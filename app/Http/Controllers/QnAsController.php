@@ -22,7 +22,7 @@ class QnAsController extends Controller
 				->addColumn('action', function($row){
 					$btn = '<div class="text-center"><a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">읽기</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
-					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editQnA">수정</a>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm editQnA">수정</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
 					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">삭제</a></div>';
 					return $btn;

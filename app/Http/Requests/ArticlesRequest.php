@@ -27,7 +27,7 @@ class ArticlesRequest extends FormRequest
     {
         return [
             'file' => ['array'],
-			'file.*' => ['mimes: jpg, jpeg, png, zip, tar, bmp', 'max: 1000000'],
+			'file.*' => ['mimes: jpg, jpeg, png, zip, tar, bmp', 'max: 1500000'],
         ];
     }
 }
