@@ -58,10 +58,16 @@ class LocalSemestersController extends Controller
 
 	public function update(Request $request, $id)
     {
+
+		$file = $request->get('file');
+		$filename = Str::random(15).filter_var($file,FILTER_SANITIZE_URL);
+		$file->move(public_path('files/'),$filename);
+		
         \App\Article::find($id)->update([
 			'article_type' => 'LS',
 			'title' => $request->get('title'),
 			'content' => $request->get('content'),
+			'file' =>$filename,
 		]);
 		
 #		return response()->json(['success'=>'Article updated successfully.']);
