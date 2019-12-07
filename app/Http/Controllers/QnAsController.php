@@ -51,7 +51,8 @@ class QnAsController extends Controller
 
 	public function show($id)
 	{
-		$article = \App\Article::find($id);
+		//$article = \App\Article::find($id);
+		$article = \App\Article::whereId($id)->with('comments')->get();
 		
 		return response()->json($article);
 		

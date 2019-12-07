@@ -34,3 +34,15 @@ $factory->define(App\Article::class, function (Faker $faker) {
         'content' => $faker->paragraph(),
     ];
 });
+
+$factory->define(App\Comment::class, function (Faker $faker) {
+	$userIds = \App\User::pluck('id')->toArray();
+	
+    return [
+		'user_id' => function () use($faker, $userIds) {
+            return $faker->randomElement($userIds);
+		},
+		'content' => $faker->paragraph(),
+    ];
+});
+

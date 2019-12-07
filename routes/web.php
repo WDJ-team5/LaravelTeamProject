@@ -80,4 +80,5 @@ Route::resources([
     'qnas' => 'QnAsController',//질의응답 라우터
 	'teams' => 'TeamsController',//조원소개 라우터
 	'localsemesters' => 'LocalSemestersController',
+	'comments' => 'CommentsController',
 ]);

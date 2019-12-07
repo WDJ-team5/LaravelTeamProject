@@ -10,7 +10,7 @@
 			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}});
 
-		/* table ajax index */
+		/* aticle ajax index */
 		var table = $('.data-table').DataTable({
 			processing: true,
 			serverSide: true,
@@ -34,7 +34,7 @@
 		});
 
 
-		/* table ajax edit */
+		/* aticle ajax edit */
 		$('body').on('click', '.editQnA', function () {
 			$('#saveBtn').text("Update");
 			var QnA_id = $(this).data('id');
@@ -48,7 +48,7 @@
 			})
 		});
 
-		/* table ajax create & update */
+		/* aticle ajax create & update */
 		$('#saveBtn').click(function (e) {
 			e.preventDefault();
 			
@@ -89,12 +89,10 @@
 					}
 				});
 			}
-			
-			
 		});
 
 
-		/* table ajax delete */
+		/* aticle ajax delete */
 		$('body').on('click', '.deleteQnA', function () {
 			var QnA_id = $(this).data("id");
 			var result = confirm("삭제하시겠습니까?");	
@@ -112,15 +110,42 @@
 			}   
 		});
 
-		/* table ajax show */
+		/* aticle ajax show & comment ajax read */
 		$('body').on('click', '.showQnA', function () {
 			var QnA_id = $(this).data('id');
 			$.get("{{ route('qnas.index') }}" +'/' + QnA_id, function (data) {
+				data = data[0]
 				$('#modelHeading2').text("Show QnA");
 				$('#ajaxModel02').modal('show');
-				$('#title2').text(data.title);
+				$('#comment-container').empty();
+				$('#title2').text(data.title); 
 				$('#content2').html(data.content);
+				$('#comment-save-button').text("Save");
+				Array.from(data.comments).forEach((value)=>{
+					$('#comment-container').append('<div class="card-header"><pre>'+value.content+'</pre></div>');
+				});
 			})
+		});
+		
+		/* comment ajax create */
+		$('#comment-save-button').click(function (e) {
+			e.preventDefault();
+			$(this).html('Saving...');
+			$.ajax({
+				data: $('#CommentForm').serialize(),
+				url: "{{ route('comments.store') }}",
+				type: "POST",
+				dataType: 'json',
+				success: function (data) {
+					$('#CommentForm').trigger("reset");
+					$('#commentContent').val("");
+				},
+				error: function (data) {
+					console.log('Error:', data);
+					$('#comment-save-button').html('실패');
+					// $('#ajaxModel01').modal('hide');
+				}
+			});
 		});
 
 		/* etc */
@@ -305,18 +330,27 @@
 			</div>
 
 			<div class="modal-body">
-				<form id="QnAForm" name="QnAForm" class="form-horizontal">
 
-					<!-- 제목 -->
-					<div class="form-group">
-						<h1 id="title2"></h1>
-					</div>
+				<!-- 제목 -->
+				<h1 id="title2"></h1>
+			
+				<!-- 본문 -->
+				<pre id="content2"></pre>
 
-					<!-- 본문 -->
-					<div class="form-group">
-						<pre id="content2"></pre>
+				<div class="py-4">댓 글
+					<div id="comment-container" class="card">
+
 					</div>
-				</form>
+				</div>
+				<!-- 댓글 폼 -->
+				<from id="CommentForm" name="CommentForm" class="form-horizontal">
+					
+					<textarea id="commentContent" name="commentContent" required="" placeholder="Enter Content" class="form-control kokoa" rows="4"></textarea>
+					
+					
+					<button type="submit" class="btn btn-block btn-primary" id="comment-save-button" value="create">저장하기</button>
+
+				</from>
 			</div>
 			
 		</div>
