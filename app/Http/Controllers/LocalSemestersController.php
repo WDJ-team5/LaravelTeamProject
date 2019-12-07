@@ -58,6 +58,7 @@ class LocalSemestersController extends Controller
 
 	public function update(Request $request, $id)
     {
+
         \App\Article::find($id)->update([
 			'article_type' => 'LS',
 			'title' => $request->get('title'),

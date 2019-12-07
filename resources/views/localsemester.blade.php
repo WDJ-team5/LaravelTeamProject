@@ -65,11 +65,13 @@
 				})
 			}else {
 				var id = $('#ls-modal-id').val();
-				image = $('#ls-modal-file').val();
+				var data = $('#ls-form').serialize();
+				var image = $('#ls-modal-file').val();
+				data = data+'&file='+image
 				$.ajax({
 					url:"{{ route('localsemesters.store') }}"+'/'+id,
 					method:"PUT",
-					data: [$('#ls-form').serialize(),image],
+					data: data,
 					dataType:'JSON',
 					//contentType: false,
 					cache: false,
