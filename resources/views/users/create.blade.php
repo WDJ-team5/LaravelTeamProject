@@ -24,7 +24,6 @@
 		}
 
 		var id = $('#email').attr('name');
-		alert(id!='email');
 		if(id != 'email'){
 			fetch('/auth/register/'+id,{
 				method: "GET",
