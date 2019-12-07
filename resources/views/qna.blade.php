@@ -52,7 +52,7 @@
 		$('#saveBtn').click(function (e) {
 			e.preventDefault();
 			
-			if($('#saveBtn').text() == 'Save') {
+			if($('#QnA_id').val() === "") {
 				$(this).html('Saving...');
 				$.ajax({
 					data: $('#QnAForm').serialize(),
@@ -118,7 +118,6 @@
 			$.get("{{ route('qnas.index') }}" +'/' + QnA_id, function (data) {
 				$('#modelHeading2').text("Show QnA");
 				$('#ajaxModel02').modal('show');
-				$('#QnA_id2').val(data.id);
 				$('#title2').text(data.title);
 				$('#content2').html(data.content);
 			})
@@ -263,6 +262,7 @@
 
 			<div class="modal-body">
 				<form id="QnAForm" name="QnAForm" class="form-horizontal">
+					
 					<input type="hidden" name="QnA_id" id="QnA_id">
 
 					<!-- 제목 폼 -->
@@ -285,6 +285,7 @@
 					<div class="">
 						<button type="submit" class="btn btn-block btn-primary" id="saveBtn" value="create">저장하기</button>
 					</div>
+					
 				</form>
 			</div>
 			
@@ -305,7 +306,6 @@
 
 			<div class="modal-body">
 				<form id="QnAForm" name="QnAForm" class="form-horizontal">
-					<input type="hidden" name="QnA_id" id="QnA_id2">
 
 					<!-- 제목 -->
 					<div class="form-group">
