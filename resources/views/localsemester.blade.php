@@ -49,6 +49,7 @@
 		$('#ls-form').on('submit', function(e) {
 			e.preventDefault();
 			if($('#ls-modal-id').val() === "") {
+				$('#hidden_method').html('');
 				$.ajax({
 					url:"{{ route('localsemesters.store') }}",
 					method:"POST",
@@ -58,31 +59,68 @@
 					cache: false,
 					processData: false,
 					success:function(data){
+						console.log(data);
 						$('#ls-form').trigger("reset");
 						$('#ls-modal-create-container').modal('hide');
 						koko();
 					}
 				})
 			}else {
+				document.getElementById('hidden_method').innerHTML = '<input type="hidden" name="_method" value="PUT"><input type="hidden" name="_token" value="{{ csrf_token() }}">';
 				var id = $('#ls-modal-id').val();
-				var data = $('#ls-form').serialize();
-				var image = document.getElementById('ls-modal-file').files[0];
-				data = data+'&file='+image;
+				var form = document.forms.namedItem('ls-form');
+				var formData = new FormData(form);
+				console.log(formData.has('file'));
 				$.ajax({
-					url:"{{ route('localsemesters.store') }}"+'/'+id,
-					method:"PUT",
-					data: data,
+					url:"/localsemesters/"+id,
+					method:"POST",
+					enctype: 'multipart/form-data',
+					data:formData,
 					dataType:'JSON',
-					//contentType: false,
+					contentType: false,
 					cache: false,
 					processData: false,
 					success:function(data){
-						console.log(data)
+						console.log(data);
 						$('#ls-form').trigger("reset");
 						$('#ls-modal-create-container').modal('hide');
 						koko();
 					}
-				})
+				});
+
+				
+				
+				
+				
+				// console.log(formData);
+				// $.ajax({
+				// 	url:"{{ route('localsemesters.store') }}"+'/'+id,
+				// 	method:"PUT",
+				// 	data:data,
+				// 	dataType:'JSON',
+				// 	//contentType: false,
+				// 	cache: false,
+				// 	processData: false,
+				// 	success:function(data){
+				// 		console.log(data);
+				// 		$.ajax({
+				// 			url:"/localsemesters/"+id+"/img",
+				// 			method:"POST",
+				// 			data:formData,
+				// 			dataType:'JSON',
+				// 			_method = put,
+				// 			contentType: false,
+				// 			cache: false,
+				// 			processData: false,
+				// 			success:function(data){
+				// 				console.log(data)
+				// 			}
+				// 		})
+				// 		$('#ls-form').trigger("reset");
+				// 		$('#ls-modal-create-container').modal('hide');
+				// 		koko();
+				//	}
+				//})
 				
 			}
 			
@@ -327,7 +365,9 @@
 
 			<div class="modal-body">
 				<form id="ls-form" name="ls-form" enctype="multipart/form-data">
-					
+					<div type="hidden" id="hidden_method">
+						
+					</div>
 					<input type="hidden" name="ls-modal-id" id="ls-modal-id">
 					
 					<div class="form-group">
