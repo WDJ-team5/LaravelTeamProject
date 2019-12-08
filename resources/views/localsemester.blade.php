@@ -30,7 +30,11 @@
 							var imgPath = "http://placehold.it/320x100?text=sample";
 						}
 						ls_box.className = 'ls-box';
-						ls_box.innerHTML = '<div>작성자 : '+value.user.name+'</div>\<div>제목 : '+value.title+'</div>\<div class="ls-image" name='+value.id+' value='+value.id+'><img class="ls-box-image" src='+imgPath+' alt='+value.id+'/></div>\<button class="button-edit" name='+value.id+'>수정</button>\<button class="button-delete" name='+value.id+'>삭제</button>';
+						ls_box.innerHTML ='<div class="ls-imgbox" name="'+value.id+'"><div class="ls-hover"><div class="ls-hover-content"><i class="fas fa-plus fa-3x"></i></div></div><div class="ls-image" name="'+value.id+'" value="'+value.id+'"><img class="ls-box-image" src='+imgPath+' alt='+value.id+'/></div></div>\
+						<div class="space"></div><h3 class="ls-title">'+value.title+'</h3>\
+						<h6 class="ls-name">'+value.user.name+'</h6><div class="space"></div>\
+						<button class="button-edit btn btn-secondary btn-sm" name="'+value.id+'">수정</button>\
+						<button class="button-delete btn btn-secondary btn-sm" name="'+value.id+'">삭제</button>';
 						ls_container.appendChild(ls_box);
 					});
 				})
@@ -118,7 +122,7 @@
 			}
 		});
 
-		$(document).on('click', '.ls-image', function(e){
+		$(document).on('click', '.ls-imgbox', function(e){
 			var id = $(this).attr('name');
 			$.ajax({
 				url:"{{ route('localsemesters.index') }}" +'/' + id,
@@ -150,30 +154,94 @@
 
 @section('style')
 <style>
-	#ls-container {
-		width: 100%;
-	}
-	.ls-box {
-		display: inline-block;
-		border: solid black 1px;
-		width: 31%;
-		text-align: center;
-		margin: 1%;
-	}
-	.ls-image {
-		border: solid black 1px;
-		width: 100%;
-		height: 20vh;
-		color: green;
-	}
-	.ls-box-image {
-		width: 100%;
-		height: 100%;
-	}
+	body {
+			background-color:#f7f7f7;
+		}
+
+	.head h1 {
+			margin : 5% 0 1% 0;
+			font-weight:bold;
+			font-size:2.3rem;
+			text-align:center;
+		}
+	.head h6 {
+			margin : 0 0 5% 0;
+			text-align:center;
+			color:#807e7e;
+		}
+	.head button { 
+			margin: -20px -50px; 
+			position:relative;
+			top:50%; 
+			left:50%;
+			margin-bottom:3%;
+		}
+	button {
+			margin: 0 1% 5% 1%;
+		}
+    #ls-container {
+            width: 100%;
+        }
+    .ls-box {
+			background-color:white;
+			display:inline-block;
+			width:30%;
+			height: 45%;
+			margin : 0 1.5% 6% 1.5%;
+			text-align: center;
+        }
+	.ls-box .space{
+			margin-top:10%;
+        }
+    .ls-image {
+            /* border: solid black 1px; */
+            width: 100%;
+            height: 25vh;
+            color: green;
+        }
+	.ls-imgbox {
+			position: relative;
+			display: block;
+			margin: 0 auto;
+			cursor: pointer;
+		}
+	.ls-hover-content {
+			position: absolute;
+			width: 100%;
+			height: 25vh;
+			transition: all ease 0.5s;
+			opacity: 0;
+			background: #326ba8;
+			text-align: center;
+  			color: white;
+		}
+	.ls-hover-content:hover {
+			opacity: 0.9;
+		}
+	.ls-hover-content i {
+			line-height: 25vh;
+		}
+
+	.ls-title { 
+			font-weight:bold;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	.ls-name {
+			margin-top:3%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	.create-div {
 		border: solid black 1px;
 		width: 50px;
 		height: 50px;
+	}
+	.ls-box-image {
+		width: 100%;
+		height: 100%;
 	}
 	.ls-box-image2 {
 		width: 100%;
@@ -256,15 +324,13 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-			<h1>후쿠오카 현지학기제</h1>
-			<hr>
-			<button id='button-write' class="btn btn-success">글쓰기</button>
-			<div id='ls-container'>
-    		</div>
-        </div>
-    </div>
+    <div class="head">
+		<h1>후쿠오카 현지학기제</h1>
+		<h6>2019.08.03 - 2019.09.11</h6>
+		<button id='button-write' class="btn btn-primary btn-sm">새 글 작성</button>
+	</div>
+	<hr/>
+	<div id="ls-container"></div>
 </div>
 <!-- model01 -->
 <div class="modal fade" id="ls-modal-create-container" aria-hidden="true">
