@@ -26,6 +26,7 @@ class SessionsController extends Controller
         if(!auth()->user()->activated) {
             auth()->logout();
             flash('죄송합니다. 아직 검토가 끝나지 않은 계정입니다.ㅠㅠ');
+			return back()->withInput();
         }
 
         flash(auth()->user()->name.'님, 환영합니다.');
