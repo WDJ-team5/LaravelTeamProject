@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class LocalSemestersController extends Controller
 {	
+	public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index','create','show']]);
+    }
+	
     public function index()
     {
 		return view('localsemester');
@@ -23,6 +28,8 @@ class LocalSemestersController extends Controller
 
     public function store(Request $request)
     {
+		$this->authorize('create');
+		
 		 $filename = '';
 		 $id = auth()->user()->id;
 		
@@ -36,8 +43,7 @@ class LocalSemestersController extends Controller
 		 	'content'=>$request->get('content'),
 		 	'file'=>$filename,
 		 ]);
-		
-		// return response()->json(['success'=>'Artice create successfully']);
+	
 		 return response()->json($request);
 		
     }
@@ -53,6 +59,7 @@ class LocalSemestersController extends Controller
     public function edit($id)
     {
         $article = \App\Article::find($id);
+		$this->authorize('update', $article);
 		
 		return response()->json($article);
     }
@@ -74,15 +81,16 @@ class LocalSemestersController extends Controller
 		 	'content' => $request->get('content'),
 			'file'=>$filename,
 		]);	
-#		return response()->json(['success'=>'Article updated successfully.']);
+
 		return response()->json($request);
-		
 		
     }
 
     public function destroy($id)
     {
 		$article = \App\Article::find($id);
+		$this->authorize('delete', $article);
+		
 		$image = $article->file;
 		
 		if($image !== null) {

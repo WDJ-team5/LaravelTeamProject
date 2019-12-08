@@ -9,14 +9,14 @@ class ArticlesTableSeeder extends Seeder
      */	
     public function run()
     {	
-		for($i=1;$i<30;$i++) {
-			App\User::find($i)->articles()->create([	
-				'article_type' => 'LS',
-				'title' => '현지학기줴 제목'.$i,
-				'content' => '현지학기제 내용'.$i,
-				'file' => null,
-        	]);
-		}
+		// for($i=1;$i<30;$i++) {
+		// 	App\User::find($i)->articles()->create([	
+		// 		'article_type' => 'LS',
+		// 		'title' => '현지학기줴 제목'.$i,
+		// 		'content' => '현지학기제 내용'.$i,
+		// 		'file' => null,
+		// ]);
+		// }
 		
         App\User::get()->each(function($user) {	
             $user->articles()->save(factory(App\Article::class)->make());	

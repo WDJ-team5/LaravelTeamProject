@@ -327,7 +327,9 @@
     <div class="head">
 		<h1>후쿠오카 현지학기제</h1>
 		<h6>2019.08.03 - 2019.09.11</h6>
+		@can('create')
 		<button id='button-write' class="btn btn-primary btn-sm">새 글 작성</button>
+		@endcan
 	</div>
 	<hr/>
 	<div id="ls-container"></div>
