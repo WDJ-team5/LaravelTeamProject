@@ -161,14 +161,13 @@
 		$('body').on('click', '.editComment', function () {
 			var id = $(this).data('id');
 			var result = prompt('댓글을 수정하세욤.');
+			var artcle_id = $('#article_id').val();
 			$.ajax({
 				type: "patch",
 				url: "{{ route('comments.store') }}"+'/'+id,
 				data: { 'content':result},
 				success: function (data) {
-					console.log($(this).parent().children('pre'));
-					$(this).parent().children('pre').val(result);
-					
+					callComments(artcle_id);
 				},
 				error: function (data) {
 					console.log('Error:', data);
