@@ -17,7 +17,7 @@ class TeamsController extends Controller
 		}))->get(['id','user_id']);
 		
 		if(!auth()->check()){
-			return response()->json([$teams,true]);
+			return response()->json([$teams,false]);
 		}
 		
 		$check = \App\Team::where('user_id',auth()->user()->id)->doesntExist();
@@ -25,10 +25,10 @@ class TeamsController extends Controller
 		$user = auth()->user();
 		
 		if($check  && $user->rank === 'B'){
-			return response()->json([$teams,false]);
+			return response()->json([$teams,$user->name]);
 		}
 		
-		return response()->json([$teams,true]);
+		return response()->json([$teams,false]);
     }
 
     public function store(Request $request)
