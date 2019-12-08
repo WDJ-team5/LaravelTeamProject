@@ -4,7 +4,9 @@
 <script>
 	(function($) {
 		window.onload = function(){
-			fetch('/teams/create',{
+			$('#team-ul').find(":not(li:first-child)").remove();
+			function getAllData(){
+				fetch('/teams/create',{
 				method: "GET",
 				headers: {
 					'Content-Type': 'application/json',
@@ -17,12 +19,16 @@
 						$('#add-team').parent().css('display','block');
 					}
 					Array.from(data[0]).forEach((info,index)=>{
-						makeElement(info,index);
+						setElements(info,index);
 					});
 				})
-				.then(()=>{setEvents();});
+				.then(()=>{
+					setEvents();
+				});
+			}
+		
 
-			function makeElement(info,index){
+			function setElements(info,index){
 				var mainUl = document.getElementById('team-ul');
 				var li = document.createElement('li');
 				if(index%2 == 0){
@@ -32,13 +38,11 @@
 				img_div.className = 'timeline-image team-image';
 				img_div.id = info.user.id;
 				var imgPath = '';
-				console.log(info.user);
 				if(info.user.img) {
 					imgPath = "http://"+document.location.hostname+"/files/"+info.user.img;
 				}
 				var img = document.createElement('img');
 				img.className = 'rounded-circle img-fluid';
-				console.log(imgPath);
 				img.src = imgPath;
 				
 				var out_div = document.createElement('div');
@@ -61,8 +65,6 @@
 				out_div.appendChild(in_div);
 				li.appendChild(out_div);
 				mainUl.appendChild(li);
-				
-				return img_div;
 			}
 			
 			function setOnClickEventToImg(img,index){
@@ -101,6 +103,8 @@
 						// 이건 본인이나 관리자만
 						function makeUpdate(id){
 							var updateBtn = document.createElement('button');
+							var editDiv = document.createElement('div');
+							
 							updateBtn.innerHTML = '수정';
 							updateBtn.addEventListener('click',function(e){
 								var commentData = $('#comment-data').val();
@@ -185,11 +189,11 @@
 					box.appendChild(div);
 					ls_container.appendChild(box);
 					ls_container.style.display = 'block';
-					$("#create-btn").click(created);
+					$("#create-btn").click(imageClick);
 				});
 			}
 			
-			function created(){
+			function imageClick(){
 				var comment = $('#comment').val();
 				fetch('/teams',{
 					headers : { 
@@ -204,24 +208,13 @@
 				.then(e => e.json())
 				.then(e=>{
 					$('#add-team').parent().css('display','none');
-					
 					var ls_container = document.getElementById('team-modal');
 					ls_container.innerHTML='';
 					ls_container.style.display = 'none';
-					
-					var num = $('.timeline-image').length;
-					info = {
-						user: {
-							id: e.id,
-							email: e.email,
-							name: e.name,
-						}
-					}; 
-					var img = makeElement(info,num+1);
-					clickStatus[num+1] = false;
-					setOnClickEventToImg(img,num+1);
+					getAllData();
 				}); 
 			}
+			getAllData();
 		}
 	})(jQuery);
 </script>
