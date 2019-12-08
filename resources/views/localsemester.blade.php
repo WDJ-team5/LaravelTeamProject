@@ -112,7 +112,7 @@
 
 		$(document).on('click', '.button-delete', function(e){
 			var id = $(this).attr('name');
-			if(confirm("엠창?")){
+			if(confirm("정말 삭제하시겠습니까?")){
 				$.ajax({
 					type: 'DELETE',
 					url: '/localsemesters/' + id,
@@ -385,7 +385,7 @@
 		<div class="modal-content">
 			
 			<div class="modal-header">
-				<h4 class="modal-title" id="modelHeading">유후후</h4>
+				<h4 class="modal-title" id="modelHeading"></h4>
 				<div class="close-modal">
 					<i class="fas fa-times fa-3x"></i>
 				</div>
