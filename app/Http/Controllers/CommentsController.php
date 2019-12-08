@@ -35,9 +35,12 @@ class CommentsController extends Controller
     public function store(Request $request)
     {
 		$userId = auth()->user()->id;
-		dd($request);
+		$comment = \App\Article::find($request->article_id)->comments()->create([
+			'user_id' => $userId,
+			'content' => $request->content,
+		]);
 
-		return response()->json(['success'=>'Comment saved successfully.']);
+		return response()->json($comment);
     }
 
     /**
@@ -48,7 +51,9 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        $comments = \App\Comment::where('article_id', $id)->get();
+		
+		return response()->json($comments);
     }
 
     /**
@@ -71,7 +76,7 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
     }
 
     /**
@@ -81,7 +86,10 @@ class CommentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+	{
+		 $comments = \App\Comment::find($id)->delete();
+
+		return response()->json(['success'=>'Comment deleted successfully.']);
+		
     }
 }

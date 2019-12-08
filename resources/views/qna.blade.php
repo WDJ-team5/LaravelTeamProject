@@ -51,7 +51,6 @@
 		/* aticle ajax create & update */
 		$('#saveBtn').click(function (e) {
 			e.preventDefault();
-			
 			if($('#QnA_id').val() === "") {
 				$(this).html('Saving...');
 				$.ajax({
@@ -114,18 +113,28 @@
 		$('body').on('click', '.showQnA', function () {
 			var QnA_id = $(this).data('id');
 			$.get("{{ route('qnas.index') }}" +'/' + QnA_id, function (data) {
-				data = data[0]
 				$('#modelHeading2').text("Show QnA");
 				$('#ajaxModel02').modal('show');
 				$('#comment-container').empty();
+				$('#article_id').val(data.id);
 				$('#title2').text(data.title); 
 				$('#content2').html(data.content);
 				$('#comment-save-button').text("Save");
-				Array.from(data.comments).forEach((value)=>{
-					$('#comment-container').append('<div class="card-header"><pre>'+value.content+'</pre></div>');
-				});
+				callComments(QnA_id);
 			})
 		});
+		
+	 	function callComments(article_id) {
+			$(function() {
+				$.get("{{ route('comments.index') }}" +'/' + article_id, function (data) {
+					$('#comment-save-button').text("Save");
+					$('#comment-container').empty();
+					Array.from(data).forEach((value)=>{
+						$('#comment-container').append('<div class="card-header"><pre class="comment-content'+value.id+'">'+value.content+'</pre><button data-id='+value.id+' class="btn btn-success btn-sm editComment">edit</button>&nbsp;<button data-id='+value.id+' class="btn btn-danger btn-sm deleteComment">delete</button></div>');
+					});
+				})
+			});
+		}
 		
 		/* comment ajax create */
 		$('#comment-save-button').click(function (e) {
@@ -139,15 +148,47 @@
 				success: function (data) {
 					$('#CommentForm').trigger("reset");
 					$('#commentContent').val("");
+					callComments(data.article_id);
 				},
 				error: function (data) {
 					console.log('Error:', data);
 					$('#comment-save-button').html('실패');
-					// $('#ajaxModel01').modal('hide');
 				}
 			});
 		});
+		
+		/* comment ajax update */
+		$('body').on('click', '.editComment', function () {
+			var id = $(this).data('id');
+			var comment = $('.comment-content'+id+'').text();
+			var result = prompt('댓글을 수정하세욤.');
+			var form = [content => result];
+			console.log(form);
+			if(result.trim() !== "") {
+				console.log('수정함');
+			}
+			
+		});
 
+		/* comment ajax delete */
+		$('body').on('click', '.deleteComment', function () {
+			var id = $(this).data("id");
+			var artcle_id = $('#article_id').val();
+			var result = confirm("삭제하시겠습니까?");	
+			if(result) {
+				$.ajax({
+					type: "DELETE",
+					url: "{{ route('comments.store') }}"+'/'+id,
+					success: function (data) {
+						callComments(artcle_id);
+					},
+					error: function (data) {
+						console.log('Error:', data);
+					}
+				});
+			}   
+		});
+		
 		/* etc */
 		$('.fa-times').click(function() {
 			$('#ajaxModel01').modal('hide');
@@ -343,14 +384,15 @@
 					</div>
 				</div>
 				<!-- 댓글 폼 -->
-				<from id="CommentForm" name="CommentForm" class="form-horizontal">
+				<form id="CommentForm" name="CommentForm" class="form-horizontal">
 					
-					<textarea id="commentContent" name="commentContent" required="" placeholder="Enter Content" class="form-control kokoa" rows="4"></textarea>
-					
+					<input type="hidden" name="article_id" id="article_id">
+
+					<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control kokoa" rows="4"></textarea>
 					
 					<button type="submit" class="btn btn-block btn-primary" id="comment-save-button" value="create">저장하기</button>
 
-				</from>
+				</form>
 			</div>
 			
 		</div>

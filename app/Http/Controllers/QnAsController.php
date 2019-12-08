@@ -22,7 +22,7 @@ class QnAsController extends Controller
 				->addColumn('action', function($row){
 					$btn = '<div class="text-center"><a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="show" class="btn btn-primary btn-sm showQnA">show</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
-					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-success btn-sm editQnA">edit</a>';
+					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class=" btn btn-success btn-sm editQnA">edit</a>';
 					$btn = $btn.'<span>&nbsp;&nbsp;</span>';
 					$btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteQnA">delete</a></div>';
 					return $btn;
@@ -51,8 +51,7 @@ class QnAsController extends Controller
 
 	public function show($id)
 	{
-		//$article = \App\Article::find($id);
-		$article = \App\Article::whereId($id)->with('comments')->get();
+		$article = \App\Article::find($id);
 		
 		return response()->json($article);
 		
