@@ -44,8 +44,34 @@
 				$('#month').val(month).attr('selected','selected');
 				$('#day').val(day).attr('selected','selected');
 				$('#gender').val(data.gender).attr('selected','selected');
+				var imgPath = '';
+				if(data.img){
+					imgPath = "http://"+document.location.hostname+"/files/"+data.img;
+				}
+				$('#holder').attr('src', imgPath);
 			});
 		}
+		
+		
+		$('#img-input').change(function(){
+			var input = this;
+			var url = $(this).val();
+			var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+			if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+			 {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+				   	$('#holder').attr('src', e.target.result);
+					console.log($('#preview-img'));
+				}
+			   reader.readAsDataURL(input.files[0]);
+			}
+			else
+			{
+			  $('#img').attr('src', '/assets/no_preview.png');
+			}
+		});
 	}
 </script>
 @endsection
@@ -57,7 +83,14 @@
     width: 32%;
     margin-bottom: 30px;
 }
-
+#holder {
+	width: 300px;
+	height: 300px;
+	border-radius:50%;
+	background:#00d3d3;
+	border: 6px solid #fff;
+	box-shadow: 0 0 16px rgb(221,221,221);
+}
 #year{
     margin-right: 2%;     
 }
@@ -65,6 +98,30 @@
 #month{
     margin-right: 2%;        
 }   
+.filebox label {
+	display: inline-block; 
+	padding: .5em .75em;
+	color: #fff;; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle;
+	background-color: #337ab7; 
+	cursor: pointer; 
+	border: 1px solid #2e6da4;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em; 
+} 
+.filebox input[type="file"] { /* 파일 필드 숨기기 */ 
+	position: absolute; 
+	width: 1px;
+	height: 1px; 
+	padding: 0; 
+	margin: -1px;
+	overflow: hidden;
+	clip:rect(0,0,0,0); 
+	border: 0; 
+}
+
 </style>
 @endsection
 
@@ -77,23 +134,19 @@
                 <h3 class="">Please edit your membership information.</h3>
             </div>
 			@guest
-            <form action="{{ route('users.store') }}" method="POST">
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data" >
 			@else
-			<form action="/auth/register/{{$id}}}" method="POST">
+			<form action="/auth/register/{{$id}}}" method="POST" enctype="multipart/form-data" >
 				@method('patch')
 			@endguest
 				@csrf
                 <div class="form-group text-center">
-                    <span class="fa-stack fa-7x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fas fa-user fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <img class="rounded-circle" id="holder" src="" alt="" >
+                	<img class="rounded-circle" id="holder" alt="d">
                 </div>
-                <div class="form-group text-center">
-                    <div class="btn btn-primary" >사진등록<input type="file" style="display: none;"></div>
-                </div>
-				
+				<div class="filebox text-center">
+					<label for="img-input">업로드</label> 
+					<input type="file" id="img-input" name="file"> 
+				</div>
                 <div class="form-group">
 					@guest
                     <input type="email" id="email" name="email" class="form-control" placeholder="이메일 *" required>

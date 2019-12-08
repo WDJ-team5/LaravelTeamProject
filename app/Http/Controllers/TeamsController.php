@@ -13,7 +13,7 @@ class TeamsController extends Controller
     public function create()
     {
 		$teams = \App\Team::with(array('user'=>function($query){
-			$query->select('name','email','id');
+			$query->select('name','email','id','img');
 		}))->get(['id','user_id']);
 		
 		if(!auth()->check()){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -18,6 +19,11 @@ class UsersController extends Controller
 	
 	public function store(\App\Http\Requests\UsersRequest $request)
     {
+		 $file = $request->file("file");
+		 $filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
+		 $file->move(public_path('files/'),$filename);
+
+		
         $confirmCode = \Str::random(60);
         $birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
 
@@ -28,6 +34,7 @@ class UsersController extends Controller
             'birth' => $birthday,
             'gender' => $request->input('gender'),
             'confirm_code' => $confirmCode,
+			'img' =>$filename,
         ]);
         
         event(new \App\Events\UserCreated($user));
@@ -76,6 +83,22 @@ class UsersController extends Controller
 	
 	public function update(Request $request, $id)
 	{
+		
+		
+		
+		$user = \App\User::find($id);
+		$image = $user->img;
+		
+		if($image !== null) {
+			\File::delete(public_path('files/') . $image);
+		}
+		
+		$file = $request->file("file");
+		$filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
+		$file->move(public_path('files/'),$filename);
+
+		
+		
 		$birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
 		
 		\App\User::find($id)->update([
@@ -83,6 +106,7 @@ class UsersController extends Controller
             'name' => $request->input('name'),
             'birth' => $birthday,
             'gender' => $request->input('gender'),
+			'img' => $filename,
         ]);
 		
 		return redirect('/');

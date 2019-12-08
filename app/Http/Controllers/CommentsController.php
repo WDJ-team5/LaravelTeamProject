@@ -76,8 +76,9 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
-    }
+		\App\Comment::find($id)->update($request->all());
+   		return response()->json(['success'=>'Comment updated successfully.']);
+	}
 
     /**
      * Remove the specified resource from storage.

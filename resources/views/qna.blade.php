@@ -16,7 +16,7 @@
 			serverSide: true,
 			ajax: "{{ route('qnas.index') }}",
 			columns: [
-				{data: 'id', name: 'id', orderable: false},
+				{data: 'id', name: 'id'},
 				{data: 'title', name: 'title'},
 				{data: 'name', name: 'name'},
 				{data: 'created_at', name: 'created_at'},
@@ -160,10 +160,21 @@
 		/* comment ajax update */
 		$('body').on('click', '.editComment', function () {
 			var id = $(this).data('id');
-			var comment = $('.comment-content'+id+'').text();
 			var result = prompt('댓글을 수정하세욤.');
-			var form = [content => result];
-			console.log(form);
+			var artcle_id = $('#article_id').val();
+			$.ajax({
+				type: "patch",
+				url: "{{ route('comments.store') }}"+'/'+id,
+				data: { 'content':result},
+				success: function (data) {
+					//console.log($(this).parent().children('pre'));
+					//$(this).parent().children('pre').html(result);
+					callComments(artcle_id);
+				},
+				error: function (data) {
+					console.log('Error:', data);
+				}
+			});
 			if(result.trim() !== "") {
 				console.log('수정함');
 			}

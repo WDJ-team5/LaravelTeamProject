@@ -13,8 +13,8 @@
 				}})
 				.then(e => e.json())
 				.then(data => {
-					if(data[1]){
-						$('#add-team').parent().css('display','none');
+					if(!data[1]){
+						$('#add-team').parent().css('display','block');
 					}
 					Array.from(data[0]).forEach((info,index)=>{
 						makeElement(info,index);
@@ -31,10 +31,15 @@
 				var img_div = document.createElement('div');
 				img_div.className = 'timeline-image team-image';
 				img_div.id = info.user.id;
-				
+				var imgPath = '';
+				console.log(info.user);
+				if(info.user.img) {
+					imgPath = "http://"+document.location.hostname+"/files/"+info.user.img;
+				}
 				var img = document.createElement('img');
 				img.className = 'rounded-circle img-fluid';
-				img.src="sample.jpg";
+				console.log(imgPath);
+				img.src = imgPath;
 				
 				var out_div = document.createElement('div');
 				out_div.className = 'timeline-panel';
@@ -469,6 +474,12 @@
 		text-decoration: none;
 		cursor: pointer;
 	}
+	
+	.rounded-circle {
+		padding: 5%;
+		width: 100%;
+		height: 100%;
+	}
 
 </style>
 @endsection
@@ -486,7 +497,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="timeline" id='team-ul'>
-					<li class="timeline-inverted">
+					<li class="timeline-inverted" style="display:none">
 						<div class="timeline-image" id = 'add-team' onselectstart="return false"  ondragstart="return false" >
 							<h4>추가
 							<br>My
