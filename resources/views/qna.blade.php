@@ -284,6 +284,13 @@
   transform: rotate(90deg);
   background-color: #212529;
 }
+.py-4 {
+	width: 100%;
+}
+pre {
+	width: 96%;
+	white-space: pre-wrap;
+}
 </style>
 @endsection
 
