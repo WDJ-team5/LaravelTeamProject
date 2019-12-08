@@ -4,8 +4,26 @@
 <script>
 	(function($) {
 		window.onload = function(){
-			$('#team-ul').find(":not(li:first-child)").remove();
+			var clickStatus = [];
+			function addBtnCreate(){
+				var ul = document.getElementById('team-ul');
+				var li = document.createElement('li');
+				li.className = 'timeline-inverted';
+				var div = document.createElement('div');
+				div.className = 'timeline-image';
+				div.id = 'add-team';
+				div.innerHTML = '<h4>추가<br>My<br>Intrduce</h4>';
+				li.appendChild(div);
+				ul.appendChild(li);
+				document.getElementById('add-team').addEventListener('click',function(e){
+					$('#ajaxModel01').modal('show');
+					$("#saveBtn").click(imageClick);
+				});
+			}
+			
 			function getAllData(){
+				var ul = document.getElementById('team-ul');
+				ul.innerHTML='';
 				fetch('/teams/create',{
 				method: "GET",
 				headers: {
@@ -15,19 +33,25 @@
 				}})
 				.then(e => e.json())
 				.then(data => {
-					if(!data[1]){
-						$('#add-team').parent().css('display','block');
+					if(data[1]){
+						addBtnCreate();
+						$('#user-name').html(data[1]);				
 					}
 					Array.from(data[0]).forEach((info,index)=>{
 						setElements(info,index);
 					});
 				})
 				.then(()=>{
-					setEvents();
+					var imgs = $('.timeline-image');
+					for(var i = 0; i < imgs.length; i++){
+						clickStatus[i] = false;
+					}
+					Array.from($('.team-image')).forEach(function(img, index){
+						setOnClickEventToImg(img,index);
+					});
 				});
 			}
 		
-
 			function setElements(info,index){
 				var mainUl = document.getElementById('team-ul');
 				var li = document.createElement('li');
@@ -53,7 +77,6 @@
 				
 				var name = document.createElement('h4');
 				name.innerHTML = info.user.name;
-				
 				var email = document.createElement('h6');
 				email.className = 'subheading';
 				email.innerHTML = info.user.email;
@@ -69,21 +92,21 @@
 			
 			function setOnClickEventToImg(img,index){
 				img.addEventListener('click',function(e){
-					var target = e.currentTarget.parentNode.lastChild
+					var target = e.currentTarget.parentNode.lastChild;
 					if(clickStatus[index] == false){
 						var div = document.createElement('div');
 						div.className = 'timeline-body';
 						
 						var birthday = document.createElement('p');
 						birthday.className = 'text-muted';
-						
-						id = e.currentTarget.id;
-						
+						var id = e.currentTarget.id;
 						fetch('/teams/'+id,{
-							method: "GET"
+							method: "GET",
+							
 						})
 						.then(e => e.json())
 						.then(function(data){
+							console.log('data');
 							birthday.innerHTML = '생일 : '+data[0][0].birth;
 							div.appendChild(birthday);
 							if(id == data[1]){
@@ -104,7 +127,7 @@
 						function makeUpdate(id){
 							var updateBtn = document.createElement('button');
 							var editDiv = document.createElement('div');
-							
+							updateBtn.className = 'btn btn-primary btn-sm';
 							updateBtn.innerHTML = '수정';
 							updateBtn.addEventListener('click',function(e){
 								var commentData = $('#comment-data').val();
@@ -122,10 +145,11 @@
 									clickStatus[index] = false;
 								});
 							});
-							div.appendChild(updateBtn);
+							editDiv.appendChild(updateBtn);
 
 							var deleteBtn = document.createElement('button');
 							deleteBtn.innerHTML = '삭제';
+							deleteBtn.className = 'btn btn-primary btn-sm';
 							deleteBtn.addEventListener('click',function(e){
 								fetch('/teams/'+id,{
 									method:"DELETE",
@@ -136,21 +160,12 @@
 									},
 								})
 								.then(function(e){
-									var deleteTarget = target.parentNode;
-									deleteTarget.parentNode.removeChild(deleteTarget);
-									
-									$('#add-team').parent().css('display','block');	
-									var lis = $('#team-ul > li');
-									for(var i = 0;i < lis.length;i++){
-										if(i%2!=0){
-											lis[i].className = 'timeline-inverted';
-										}else{
-											lis[i].className = '';
-										}
-									}
+									getAllData();
 								});
 							});
-							div.appendChild(deleteBtn);
+							editDiv.appendChild(deleteBtn);
+							
+							div.appendChild(editDiv);
 						}
 						target.appendChild(div);
 						clickStatus[index] = true;
@@ -161,40 +176,9 @@
 				});
 			}
 			
-			function setEvents(){
-				var imgs = $('.timeline-image');
-				clickStatus = [];
-				for(var i = 0; i < imgs.length; i++){
-					clickStatus[i] = false;
-				}
-				Array.from($('.team-image')).forEach(function(img, index){
-					setOnClickEventToImg(img,index);
-				});
-				var ls_container = document.getElementById('team-modal');
-				document.getElementById('add-team').addEventListener('click',function(e){
-					var box = document.createElement('div');
-					box.className = 'modal-content';
-					
-					var span = document.createElement('span');
-					span.className = 'close';
-					span.innerHTML = '&times;';
-					span.addEventListener('click',function(e){
-						ls_container.innerHTML='';
-						ls_container.style.display = 'none';
-					});
-					
-					var div = document.createElement('div');
-					div.innerHTML = '\<input name="comment" id="comment"></input>\<button type="submit" id="create-btn";">버튼</button>';
-					box.appendChild(span);
-					box.appendChild(div);
-					ls_container.appendChild(box);
-					ls_container.style.display = 'block';
-					$("#create-btn").click(imageClick);
-				});
-			}
 			
 			function imageClick(){
-				var comment = $('#comment').val();
+				var comment = $('#content').val();
 				fetch('/teams',{
 					headers : { 
 						'Content-Type': 'application/json',
@@ -207,13 +191,16 @@
 				})
 				.then(e => e.json())
 				.then(e=>{
-					$('#add-team').parent().css('display','none');
-					var ls_container = document.getElementById('team-modal');
-					ls_container.innerHTML='';
-					ls_container.style.display = 'none';
+					$('#ajaxModel01').modal('hide');
 					getAllData();
 				}); 
 			}
+			/* etc */
+			$('.fa-times').click(function() {
+				$('#ajaxModel01').modal('hide');
+				$('#ajaxModel02').modal('hide');
+			});
+			
 			getAllData();
 		}
 	})(jQuery);
@@ -431,48 +418,13 @@
 		}
 	}
 
-
-	/* modals */
-	.modal {
-		display: none; /* Hidden by default */
-		position: fixed; /* Stay in place */
-		z-index: 2000; /* Sit on top */
-		left: 0;
-		top: 0;
-		width: 100%; /* Full width */
-		height: 100%; /* Full height */
-		overflow: auto; /* Enable scroll if needed */
-		background-color: rgb(0,0,0); /* Fallback color */
-		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-	}
-
-	/* Modal Content/Box */
-	.modal-content {
-		background-color: #fefefe;
-		margin: 15% auto; /* 15% from the top and centered */
-		padding: 20px;
-		border: 1px solid #888;
-		width: 50%; /* Could be more or less, depending on screen size */                          
-	}
-	/* The Close Button */
-	.close {
-		color: #aaa;
-		float: right;
-		font-size: 28px;
-		font-weight: bold;
-	}
-	.close:hover,
-	.close:focus {
-		color: black;
-		text-decoration: none;
-		cursor: pointer;
-	}
 	
 	.rounded-circle {
 		padding: 5%;
 		width: 100%;
 		height: 100%;
 	}
+	
 
 </style>
 @endsection
@@ -490,17 +442,56 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<ul class="timeline" id='team-ul'>
-					<li class="timeline-inverted" style="display:none">
-						<div class="timeline-image" id = 'add-team' onselectstart="return false"  ondragstart="return false" >
-							<h4>추가
-							<br>My
-							<br>Introtuce</h4>
-						</div>
-					</li>
+					
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div id="team-modal" class="modal"></div>
 </section>
+
+
+<div class="modal fade" id="ajaxModel01" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<h4 class="modal-title" id="modelHeading"></h4>
+				<div class="close-modal">
+					<i class="fas fa-times fa-3x"></i>
+				</div>
+			</div>
+
+			<div class="modal-body">
+				<form id="QnAForm" name="QnAForm" class="form-horizontal">
+					
+					<input type="hidden" name="QnA_id" id="QnA_id">
+
+					<!-- 제목 폼 -->
+					<div class="form-group">
+						<label for="name" class="col-sm-2 control-label">작성자</label>
+						<div class="col-sm-12">
+							<p type="text" class="form-control" id="user-name" name="title" placeholder="Enter Title" maxlength="50" required=""></p>
+						</div>
+					</div>
+
+					<!-- 본문 폼 -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label">자기소개</label>
+						<div class="col-sm-12">
+							<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control" rows="20"></textarea>
+						</div>
+					</div>
+
+					<!-- 게시글 저장&수정버튼 -->
+					<div class="">
+						<button type="submit" class="btn btn-block btn-primary" id="saveBtn" value="create">등 록 하 기</button>
+					</div>
+					
+				</form>
+			</div>
+			
+		</div>
+	</div>
+</div>
 @endsection
