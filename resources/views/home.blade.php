@@ -5,7 +5,6 @@
 @endsection
 
 @section('style')
-
 <style>
 	
 	body {
@@ -70,18 +69,14 @@
 
 	
 </style>
-    
 @endsection
 
 @section('content')
-
-<body>
-
 <div class="conta">
- <div class="overlay"></div>
-  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-    <source src="mp4/bg2.mp4" type="video/mp4">
-  </video>
+	<div class="overlay"></div>
+	<video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+		<source src="mp4/bg2.mp4" type="video/mp4">
+	</video>
 
 	<div class="box">
 		<div class="bottomleft">
@@ -90,7 +85,4 @@
 		</div>
 	</div>
 <div>
-
-</body>
-
 @endsection

@@ -34,6 +34,8 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
+		$this->authorize('create');
+		
 		$userId = auth()->user()->id;
 		$comment = \App\Article::find($request->article_id)->comments()->create([
 			'user_id' => $userId,
@@ -76,6 +78,9 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
+		$comment = \App\Comment::find($id);
+		$this->authorize('update', $comment);
+		
 		\App\Comment::find($id)->update($request->all());
    		return response()->json(['success'=>'Comment updated successfully.']);
 	}
@@ -88,6 +93,9 @@ class CommentsController extends Controller
      */
     public function destroy($id)
 	{
+		$comment = \App\Comment::find($id);
+		$this->authorize('delete', $comment);
+		
 		 $comments = \App\Comment::find($id)->delete();
 
 		return response()->json(['success'=>'Comment deleted successfully.']);

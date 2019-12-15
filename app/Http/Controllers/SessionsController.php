@@ -19,7 +19,7 @@ class SessionsController extends Controller
 
     public function store(SessionsRequest $request)
     {
-        if(!auth()->attempt($request->only('email', 'password'), $request->has('remember'))) {
+        if(!auth()->attempt($request->only('email', 'password'))) {
             return $this->respondError('이메일 또는 비밀번호가 맞지 않습니다.');
         }
 

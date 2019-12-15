@@ -162,19 +162,18 @@
 			var id = $(this).data('id');
 			var result = prompt('댓글을 수정하세욤.');
 			var artcle_id = $('#article_id').val();
-			$.ajax({
-				type: "patch",
-				url: "{{ route('comments.store') }}"+'/'+id,
-				data: { 'content':result},
-				success: function (data) {
-					callComments(artcle_id);
-				},
-				error: function (data) {
-					console.log('Error:', data);
-				}
-			});
-			if(result.trim() !== "") {
-				console.log('수정함');
+			if(result !== null) {
+				$.ajax({
+					type: "PATCH",
+					url: "{{ route('comments.store') }}"+'/'+id,
+					data: { 'content':result},
+					success: function (data) {
+						callComments(artcle_id);
+					},
+					error: function (data) {
+						console.log('Error:', data);
+					}
+				});
 			}
 			
 		});
@@ -399,16 +398,18 @@ pre {
 
 					</div>
 				</div>
-				<!-- 댓글 폼 -->
-				<form id="CommentForm" name="CommentForm" class="form-horizontal">
-					
-					<input type="hidden" name="article_id" id="article_id">
+				@can('create')
+					<!-- 댓글 폼 -->
+					<form id="CommentForm" name="CommentForm" class="form-horizontal">
 
-					<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control kokoa" rows="4"></textarea>
-					
-					<button type="submit" class="btn btn-block btn-primary" id="comment-save-button" value="create">저장하기</button>
+						<input type="hidden" name="article_id" id="article_id">
 
-				</form>
+						<textarea id="content" name="content" required="" placeholder="Enter Content" class="form-control kokoa" rows="4"></textarea>
+
+						<button type="submit" class="btn btn-block btn-primary" id="comment-save-button" value="create">저장하기</button>
+
+					</form>
+				@endcan
 			</div>
 			
 		</div>

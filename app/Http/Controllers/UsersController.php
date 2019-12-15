@@ -19,11 +19,14 @@ class UsersController extends Controller
 	
 	public function store(\App\Http\Requests\UsersRequest $request)
     {
-		 $file = $request->file("file");
-		 $filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
-		 $file->move(public_path('files/'),$filename);
-
 		
+		$file = $request->file("file");
+		if($file){
+			$filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
+			$file->move(public_path('files/'),$filename);
+		}else{
+			$filename = 'oomori.png';
+		}		
         $confirmCode = \Str::random(60);
         $birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
 
@@ -84,31 +87,39 @@ class UsersController extends Controller
 	public function update(Request $request, $id)
 	{
 		
-		
-		
 		$user = \App\User::find($id);
-		$image = $user->img;
-		
-		if($image !== null) {
-			\File::delete(public_path('files/') . $image);
-		}
-		
-		$file = $request->file("file");
-		$filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
-		$file->move(public_path('files/'),$filename);
-
-		
 		
 		$birthday = $request->input('year').'-'.$request->input('month').'-'.$request->input('day');
 		
-		\App\User::find($id)->update([
-            'password' => bcrypt($request->input('password')),
-            'name' => $request->input('name'),
-            'birth' => $birthday,
-            'gender' => $request->input('gender'),
-			'img' => $filename,
-        ]);
+		$file = $request->file("file");
 		
+		
+		if(!$file){
+			\App\User::find($id)->update([
+				'password' => bcrypt($request->input('password')),
+				'name' => $request->input('name'),
+				'birth' => $birthday,
+				'gender' => $request->input('gender'),
+			]);
+		}else{
+		
+			$image = $user->img;
+		
+			if($image !== null) {
+				\File::delete(public_path('files/') . $image);
+			}
+	
+			$filename = Str::random(15).filter_var($file->getClientOriginalName(),FILTER_SANITIZE_URL);
+			$file->move(public_path('files/'),$filename);
+
+			\App\User::find($id)->update([
+				'password' => bcrypt($request->input('password')),
+				'name' => $request->input('name'),
+				'birth' => $birthday,
+				'gender' => $request->input('gender'),
+				'img' => $filename,
+			]);
+		}
 		return redirect('/');
 	}
 	

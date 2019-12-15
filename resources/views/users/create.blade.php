@@ -36,10 +36,10 @@
 			.then(data => {
 				$('#email').text(data.email);
 				$('#name').val(data.name);
-				var birth = data.birth;
-				var year = birth.substring(0,4)+'년';
-				var month = birth.substring(5,7).replace(/(^0+)/,"")+'월';
-				var day = birth.substring(8,10).replace(/(^0+)/,"")+'일';//이걸 이렇게 쪼개네 주후니ㅋㅋㅋㅋ
+				var birth = data.birth.split('-');
+				var year = birth[0];
+				var month = birth[1];
+				var day = birth[2];
 				$('#year').val(year).attr('selected','selected');
 				$('#month').val(month).attr('selected','selected');
 				$('#day').val(day).attr('selected','selected');
@@ -63,7 +63,6 @@
 
 				reader.onload = function (e) {
 				   	$('#holder').attr('src', e.target.result);
-					console.log($('#preview-img'));
 				}
 			   reader.readAsDataURL(input.files[0]);
 			}
@@ -141,7 +140,7 @@
 			@endguest
 				@csrf
                 <div class="form-group text-center">
-                	<img class="rounded-circle" id="holder" alt="d">
+                	<img class="rounded-circle" id="holder" alt="d" src="{{ asset('files/oomori.png') }}">
                 </div>
 				<div class="filebox text-center">
 					<label for="img-input">업로드</label> 
