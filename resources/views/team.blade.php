@@ -17,7 +17,7 @@
 				ul.appendChild(li);
 				document.getElementById('add-team').addEventListener('click',function(e){
 					$('#ajaxModel01').modal('show');
-					$("#saveBtn").click(imageClick);
+					$("#saveBtn").click(postContent);
 				});
 			}
 			
@@ -177,7 +177,7 @@
 			}
 			
 			
-			function imageClick(){
+			function postContent(){
 				var comment = $('#content').val();
 				fetch('/teams',{
 					headers : { 

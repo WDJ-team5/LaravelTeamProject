@@ -53,8 +53,9 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        $comments = \App\Comment::where('article_id', $id)->get();
-		
+		$comments = \App\Comment::where('article_id', $id)->with(array('user'=>function($query){
+			$query->select('name','id');
+		}))->get();
 		return response()->json($comments);
     }
 

@@ -130,7 +130,7 @@
 					$('#comment-save-button').text("Save");
 					$('#comment-container').empty();
 					Array.from(data).forEach((value)=>{
-						$('#comment-container').append('<div class="card-header"><pre class="comment-content'+value.id+'">'+value.content+'</pre><button data-id='+value.id+' class="btn btn-success btn-sm editComment">edit</button>&nbsp;<button data-id='+value.id+' class="btn btn-danger btn-sm deleteComment">delete</button></div>');
+						$('#comment-container').append('<div class="card-header"><pre class="comment-content'+value.id+'">'+value.user.name+' : '+value.content+'</pre><button data-id='+value.id+' class="btn btn-success btn-sm editComment">edit</button>&nbsp;<button data-id='+value.id+' class="btn btn-danger btn-sm deleteComment">delete</button></div>');
 					});
 				})
 			});
